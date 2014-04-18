@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CrossScript : MonoBehaviour {
 
+	public int it=8;
+
 	// Use this for initialization
 	void Start () {
 		StartCoroutine("turnDark");
@@ -28,7 +30,7 @@ public class CrossScript : MonoBehaviour {
 		Explosion_script script = explosion.GetComponent<Explosion_script>();
 		script.type = "c";
 		script.scale = 1f;
-		script.it = 8;
+		script.it = it;
 		script.Init();
 		
 		yield return new WaitForSeconds(0.25f);
