@@ -2,26 +2,19 @@
 using System.Collections;
 
 public class ShipEnemyCollisionScript : MonoBehaviour {
-
-	private float curHealth;
-	private float maxHealth;
-	private float healthBarLength;
 	
+	float maxHealth = 10;
+	float curHealth;
+		
 	// Variables for health bar GUI
-	private float guiOffsetY;
-	private Vector2 guiSize;
-	private Texture2D healthTexture;
-	
+	float guiOffsetY;
+	Vector2 guiSize;	
 
 	// Use this for initialization
 	void Start () {
-		maxHealth = 10;
 		curHealth = maxHealth;
-		healthBarLength = 0;
-		
 		guiOffsetY = -80;
-		guiSize = new Vector2(30,12);
-		healthTexture = Resources.Load("healthbar") as Texture2D;
+		guiSize = new Vector2(30,12);		
 	}
 	
 	// Update is called once per frame
