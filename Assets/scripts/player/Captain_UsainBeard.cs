@@ -16,7 +16,7 @@ public class Captain_UsainBeard : Captain{
 
 				player.speed *= 3;
 				player.maxSpeed *= 3;
-				player.acceleration *= 3;
+				player.acceleration *= 3;           
 		}
 	}
 

@@ -16,7 +16,7 @@ public class PlayerHealthbarScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {	
+	void Update () {	        
 	}
 	
 	void OnTriggerEnter2D(Collider2D collision){
@@ -32,7 +32,7 @@ public class PlayerHealthbarScript : MonoBehaviour {
 		
 		if(curHealth <= 0){
 			curHealth = 0;
-			GUI.Box( new Rect(0,0, Screen.width,  Screen.height), "You have died..", gameOverStyle);
+			GUI.Box( new Rect(0,0, Screen.width,  Screen.height), "You have died..", gameOverStyle);            
 		}
 	}	
 }

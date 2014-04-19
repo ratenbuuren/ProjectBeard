@@ -43,8 +43,9 @@ public class ShipMovementScript : MonoBehaviour {
 		
 		waveRate = 0.15f;
 		waveCounter = 0;
-		
-		captain = new Captain_UsainBeard();		
+		try{
+			captain = new Captain_UsainBeard();		
+		} catch(UnityException){}
 	}
 	
 	// Update is called once per frame
