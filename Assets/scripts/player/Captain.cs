@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Captain : MonoBehaviour{
+public abstract class Captain : MonoBehaviour {
 	
-	new public string name;
-	public int id;
-	public ShipMovementScript player = GameObject.FindGameObjectWithTag ("Player").GetComponent("ShipMovementScript") as ShipMovementScript;
-	
-	public Captain(string name, int id){
-		this.name = name;
+	private string captainName;
+	private int id;
+    private float cooldown;
+    protected ShipController player;
+
+	public void init(string name, int id, float cooldown){
+        player = gameObject.GetComponent<ShipController>();
+        this.captainName = name;
 		this.id = id;
+        this.cooldown = cooldown;
 	}
 	
 	public abstract void Activate(); 	
@@ -18,4 +21,14 @@ public abstract class Captain : MonoBehaviour{
 	public int getId(){
 		return id;
 	}
+
+    public string getName()
+    {
+        return captainName;
+    }
+
+    public float getCooldown()
+    {
+        return cooldown;
+    }
 }

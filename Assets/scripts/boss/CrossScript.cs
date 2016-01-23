@@ -17,12 +17,12 @@ public class CrossScript : MonoBehaviour {
 	
 	IEnumerator turnDark(){
 		yield return new WaitForSeconds(0.5f);		
-		renderer.material.color = new Color(0.6f, 0.6f, 0.6f);
+		GetComponent<Renderer>().material.color = new Color(0.6f, 0.6f, 0.6f);
 	}
 	
 	IEnumerator turnDarkest(){
 		yield return new WaitForSeconds(0.75f);		
-		renderer.material.color = new Color(0.3f, 0.3f, 0.3f);
+		GetComponent<Renderer>().material.color = new Color(0.3f, 0.3f, 0.3f);
 				
 		// Create the explosion.
 		GameObject explosion = Instantiate(Resources.Load("boss/Boss_explosion")) as GameObject;

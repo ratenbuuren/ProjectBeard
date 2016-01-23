@@ -36,13 +36,13 @@ public class BossScript : MonoBehaviour {
 		if(healthBar.curHealth/ healthBar.maxHealth < dif_threshold[0] && difficulty == 1){
 			increaseDifficulty();
 			difficulty ++;
-			renderer.material.color = color(178,178,178);
-			bossCannon.renderer.material.color = color(158, 178, 255);
+			GetComponent<Renderer>().material.color = color(178,178,178);
+			bossCannon.GetComponent<Renderer>().material.color = color(158, 178, 255);
 		} else if(healthBar.curHealth/ healthBar.maxHealth < dif_threshold[1] && difficulty == 2){			
 			increaseDifficulty();
 			difficulty ++;
-			renderer.material.color = color(127,127,127);
-			bossCannon.renderer.material.color = color(244, 57,57);
+			GetComponent<Renderer>().material.color = color(127,127,127);
+			bossCannon.GetComponent<Renderer>().material.color = color(244, 57,57);
 		}
 		
 		float curAngle = transform.rotation.eulerAngles.z;

@@ -22,7 +22,7 @@ public class BossIndicator : MonoBehaviour {
 
     void OnGUI()
     {
-        if (!boss.renderer.isVisible)   
+        if (!boss.GetComponent<Renderer>().isVisible)   
         {
             // Show an indicator of where the boss is.  
             Vector3 targetDir = transform.position - boss.transform.position;

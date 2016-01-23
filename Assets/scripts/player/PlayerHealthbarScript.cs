@@ -20,7 +20,7 @@ public class PlayerHealthbarScript : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter2D(Collider2D collision){
-		Damage dmgComponent = collision.gameObject.GetComponent<Damage>();
+		DoDamageOnHit dmgComponent = collision.gameObject.GetComponent<DoDamageOnHit>();
 		if(dmgComponent != null && collision.gameObject.tag != "Friendly"){
 			curHealth = curHealth - dmgComponent.dmg;
 		}

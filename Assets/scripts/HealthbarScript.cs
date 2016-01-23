@@ -26,7 +26,7 @@ public class HealthbarScript: MonoBehaviour {
 	}
 	  
     void OnTriggerEnter2D(Collider2D collision){
-		Damage dmgComponent = collision.gameObject.GetComponent<Damage>();
+		DoDamageOnHit dmgComponent = collision.gameObject.GetComponent<DoDamageOnHit>();
 		if(dmgComponent != null){
 			curHealth = curHealth - dmgComponent.dmg;
 			Destroy(collision.gameObject);

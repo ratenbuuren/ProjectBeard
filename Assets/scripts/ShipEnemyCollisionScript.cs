@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class ShipEnemyCollisionScript : MonoBehaviour {
-	
+
+    public GameObject explosionPrefab;
 	float maxHealth = 10;
 	float curHealth;
 		
@@ -15,20 +16,19 @@ public class ShipEnemyCollisionScript : MonoBehaviour {
 		curHealth = maxHealth;
 		guiOffsetY = -80;
 		guiSize = new Vector2(30,12);		
-	}
-	
-	// Update is called once per frame
-	void Update () {		
-		if(curHealth <= 0){
-			Destroy(this.gameObject);
-			GameObject explosion = Instantiate(Resources.Load("Explosion")) as GameObject;
-			explosion.transform.position = transform.position;
-		}				
-	}
+	}	
 	  
-    void OnTriggerEnter2D(Collider2D collision){		
-		Destroy(collision.gameObject);
+    void OnTriggerEnter2D(Collider2D collision){				
 		curHealth --;
+        if (curHealth <= 0)
+        {
+            Destroy(this.gameObject);
+            if (explosionPrefab)
+            {
+                GameObject explosion = Instantiate(explosionPrefab) as GameObject;
+                explosion.transform.position = collision.transform.position;
+            }
+        }
     }
 
 	void OnGUI () {

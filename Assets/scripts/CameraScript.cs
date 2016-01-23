@@ -2,29 +2,35 @@
 using System.Collections;
 
 public class CameraScript : MonoBehaviour {
-
-	int zoom=40;
-	int normal=60;		
-	GameObject player_ship;
-	ShipMovementScript script;
-	
-	float minSpeed;
-	float maxSpeed;
+    public GameObject target;
+    int minZoom=10;
+	int maxZoom=15;		    
+	GameObject playerShip;
+	ShipController controller;	
 	
 	// Use this for initialization
-	void Start () {
-		player_ship = GameObject.Find("Player_ship");
-		script = player_ship.GetComponent<ShipMovementScript>();
-		Camera.main.orthographic  = true;
-		minSpeed = script.minSpeed;
-		maxSpeed = script.maxSpeed;		
+	void Start () {        
+		playerShip = GameObject.FindGameObjectWithTag("Player");
+        controller = playerShip.GetComponent<ShipController>();        
+		Camera.main.orthographic  = true;				
 	}
 	
 	// Update is called once per frame
 		
 	void Update () {
-		float zoomLevel = Mathf.Lerp(zoom, normal, script.speed/((maxSpeed - minSpeed)))/6;		
-		Camera.main.orthographicSize = zoomLevel;		
-		transform.position = new Vector3(player_ship.transform.position.x, player_ship.transform.position.y, transform.position.z);				
-	}
+		float zoomLevel = Mathf.Lerp(minZoom, maxZoom, (controller.getVelocity()-controller.minVelocity)/(controller.maxVelocity- controller.minVelocity));
+
+        zoomLevel = 20;
+		Camera.main.orthographicSize = zoomLevel;
+        Vector3 newPosition;
+        if (!target)
+        {
+            newPosition = new Vector3(playerShip.transform.position.x, playerShip.transform.position.y, -10);
+        }
+        else
+        {
+            newPosition = new Vector3(target.transform.position.x, target.transform.position.y, -10);
+        }
+        transform.position = newPosition;
+    }        
 }
