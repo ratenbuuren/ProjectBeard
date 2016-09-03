@@ -8,9 +8,33 @@ public class DoDamageOnHit: MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.transform.root.gameObject.GetComponent<Health>())
+        Health healthComponent = findHealthComponent(collision.gameObject);
+        if (healthComponent)
         {
-            collision.gameObject.transform.root.gameObject.GetComponent<Health>().takeDamage(dmg);
+            healthComponent.takeDamage(dmg);            
         }
+    }
+
+    /**
+     * Returns the first Health component of obj, starting from itself, than its parent, all the way to the root
+     */
+    private Health findHealthComponent(GameObject obj)
+    {
+        Health health = obj.GetComponent<Health>();
+        if (health)
+        {
+            return health;
+        }
+
+        Transform parent = obj.transform.parent;
+        while (parent != null)
+        {
+            health = parent.GetComponent<Health>();
+            if (health != null) {
+                return health;
+            }
+            parent = parent.parent;
+        }
+        return null;
     }
 }
