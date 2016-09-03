@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 public class AIShootProjectile : MonoBehaviour {
 
-    public float velocity = 700f;
     public GameObject target;           /* target to shoot at */
     public GameObject projectilePrefab; /* projectile to generate */
     public GameObject projectileParent;
     public Vector2 shootDirection;      /* relative direction to shoot at */
-    public float shootAngle = 30f;          /* angle between object and target should be less than shootAngle before object starts shooting */
-    public float fireDelay = 0.2f;      /* delay between shots */
-    public float range;                 /* range between target and object at which the object starts shooting */    
+    public float velocity   = 700f;
+    public float shootAngle = 30f;      /* angle between object and target should be less than shootAngle before object starts shooting */
+    public float fireDelay  = 0.2f;     /* delay between shots */
+    public float range      = 30f;      /* range between target and object at which the object starts shooting */    
 
     private bool fireEnabled = true;
 
 	void Update () {
-        if (target && projectilePrefab && Vector3.Distance(transform.root.position, target.transform.position) <= range && fireEnabled && acceptAngle())
+        if (target && projectilePrefab && fireEnabled && withinReach())
         {
             fireEnabled = false;            
             Invoke("enableFire", fireDelay);
@@ -40,24 +40,34 @@ public class AIShootProjectile : MonoBehaviour {
         }
 	}
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        /* for debuggin purposes, draw the triggerAtDistance around the object*/
-        UnityEditor.Handles.color = acceptAngle() ? Color.red : Color.blue;
-        UnityEditor.Handles.DrawWireDisc(transform.root.position, Vector3.forward, range);
-        UnityEditor.Handles.DrawLine(transform.root.position, transform.root.position + transform.TransformDirection(Quaternion.Euler(0, 0, shootAngle) * shootDirection * range));
-        UnityEditor.Handles.DrawLine(transform.root.position, transform.root.position + transform.TransformDirection(Quaternion.Euler(0, 0, -shootAngle) * shootDirection * range));
+        /* for debugging purposes, draw the triggerAtDistance around the object*/
+        UnityEditor.Handles.color = withinReach() ? Color.red : withinRange() ? Color.blue : Color.green;
+        //UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, range);
+        UnityEditor.Handles.DrawWireArc(transform.position, Vector3.forward, Vector2.up.Rotate(transform.rotation.eulerAngles.z - shootAngle) * range, shootAngle * 2, range);
+        UnityEditor.Handles.DrawLine(transform.position, transform.position + transform.TransformDirection(Quaternion.Euler(0, 0, shootAngle) * shootDirection * range));
+        UnityEditor.Handles.DrawLine(transform.position, transform.position + transform.TransformDirection(Quaternion.Euler(0, 0, -shootAngle) * shootDirection * range));
 
     }
-
 
     void enableFire()
     {
         fireEnabled = true;
     }
-
-    private bool acceptAngle()
+    
+    private bool withinReach()
     {
-        return Vector2.Angle(transform.root.position, target.transform.position) < shootAngle;
+        return withinRange() && withinAngle();
+    }
+
+    private bool withinRange()
+    {
+        return Vector3.Distance(transform.position, target.transform.position) <= range;
+    }
+
+    private bool withinAngle()
+    {        
+        return Util.angle(Vector2.up.Rotate(transform.rotation.eulerAngles.z) * range, target.transform.position - transform.position) < shootAngle;
     }
 }

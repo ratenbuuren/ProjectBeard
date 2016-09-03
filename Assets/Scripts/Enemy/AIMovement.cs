@@ -70,9 +70,9 @@ public class AIMovement: MonoBehaviour {
 
     }
 
-    private void OnDrawGizmosSelected()
-    {    
+    private void OnDrawGizmos()
+    {
         UnityEditor.Handles.color = Color.gray;
-        UnityEditor.Handles.DrawWireDisc(transform.root.position, Vector3.forward, range);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, range);
     }
 }
