@@ -754,4 +754,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   height: 10
   width: 20
-  tile: {fileID: 1545865642423034, guid: e6869b74a28454d2e94e186e1abbe673, type: 2}
+  tile: {fileID: 1701253733889428, guid: cb66a95c4fea648d8be1c721e03eddab, type: 2}
+  edge: {fileID: 1492571879944768, guid: d1b565ea208d14708995b2132c79bede, type: 2}
