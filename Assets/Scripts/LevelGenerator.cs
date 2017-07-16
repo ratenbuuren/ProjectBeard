@@ -16,8 +16,11 @@ public class LevelGenerator : MonoBehaviour {
 
 	void Start () {
 		if (tile == null) {
-			throw new Exception ("Cannot create level out of empty tiles");
+			throw new Exception ("Cannot create level out of empty tile objects");
+		} else if (edge == null) {
+			throw new Exception ("Cannot create level out of empty edge objects");
 		}
+
 
 		root = new GameObject (rootName);
 
@@ -41,40 +44,40 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	private void generateEdges() {
+		int[] arr = { 1, -1 };
+
 		// create top and bottom row
 		for (int x = 0; x < width+2; x++) { 
 			float xPos = (float)x - (width / 2f) - 0.5f;
 			float yPos = (height / 2f) + 0.5f;
 
-			new PrefabBuilder (edge)
-				.position (xPos, yPos)
-				.parent (root)
-				.build ();
+			foreach (int i in arr) {
+				yPos = i*yPos;
+				int rotation = UnityEngine.Random.Range (0, 4) * 90;
 
-			yPos = -yPos;
-
-			new PrefabBuilder (edge)
-				.position (xPos, yPos)
-				.parent (root)
-				.build ();
+				new PrefabBuilder (edge)
+					.position (xPos, yPos)
+					.parent (root)
+					.rotate(rotation)
+					.build ();
+			}
 		}
 
 		// create left and right column
 		for (int y = 0; y < height; y++) {
-			float xPos = (width / 2) + 0.5f;
+			float xPos = (width / 2f) + 0.5f;
 			float yPos = (float) y - (height / 2f) + 0.5f;
 
-			new PrefabBuilder (edge)
-				.position (xPos, yPos)
-				.parent (root)
-				.build ();
+			foreach (int i in arr) {
+				xPos = i*xPos;				
+				int rotation = UnityEngine.Random.Range (0, 4) * 90;
 
-			xPos = -xPos;
-
-			new PrefabBuilder (edge)
-				.position (xPos, yPos)
-				.parent (root)
-				.build ();
+				new PrefabBuilder (edge)
+					.position (xPos, yPos)
+					.parent (root)
+					.rotate(rotation)
+					.build ();
+			}
 		}
 	}
 		
