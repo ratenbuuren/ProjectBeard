@@ -29,58 +29,62 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	private void generatePlayingField() {
+		float xPos = -(width / 2f) + 0.5f;;
 		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-
-				float xPos = (float) x - (width / 2f) + 0.5f;
-				float yPos = (float) y - (height / 2f) + 0.5f;
-
-				new PrefabBuilder (tile)
-					.position (xPos, yPos)
-					.parent (root)
-					.build ();
-			}
+			float yPos = (float) y - (height / 2f) + 0.5f;
+			generateRow (tile, xPos, yPos, width, false);
 		}
 	}
 
 	private void generateEdges() {
-		int[] arr = { 1, -1 };
+		float xPos = -(width / 2f) - 0.5f;
+		float yPos = (height / 2f) + 0.5f;
 
-		// create top and bottom row
-		for (int x = 0; x < width+2; x++) { 
-			float xPos = (float)x - (width / 2f) - 0.5f;
-			float yPos = (height / 2f) + 0.5f;
+		generateRow (edge, xPos, yPos, width+2, true);
+		generateRow (edge, xPos, -yPos, width+2, true);
 
-			foreach (int i in arr) {
-				yPos = i*yPos;
-				int rotation = UnityEngine.Random.Range (0, 4) * 90;
+		xPos = (width / 2f) + 0.5f;
+		yPos = -(height / 2f) + 0.5f;
 
-				new PrefabBuilder (edge)
-					.position (xPos, yPos)
-					.parent (root)
-					.rotate(rotation)
-					.build ();
-			}
-		}
+		generateColumn (edge, xPos, yPos, height, true);
+		generateColumn (edge, -xPos, yPos, height, true);
+	}
 
-		// create left and right column
-		for (int y = 0; y < height; y++) {
-			float xPos = (width / 2f) + 0.5f;
-			float yPos = (float) y - (height / 2f) + 0.5f;
+	private void generateRow(GameObject obj, float x, float y, int n, bool randRotation) {
+		generateLine (obj, x, y, n, randRotation, Direction.Horizontal);
+	}
 
-			foreach (int i in arr) {
-				xPos = i*xPos;				
-				int rotation = UnityEngine.Random.Range (0, 4) * 90;
+	private void generateColumn(GameObject obj, float x, float y, int n, bool randRotation) {
+		generateLine (obj, x, y, n, randRotation, Direction.Vertical);
+	}
 
-				new PrefabBuilder (edge)
-					.position (xPos, yPos)
-					.parent (root)
-					.rotate(rotation)
-					.build ();
+	private void generateLine(GameObject obj, float x, float y, int n, bool randRotation, Direction dir) {
+		for (int i = 0; i < n; i++) {
+			float rotation = randRotation ? UnityEngine.Random.Range (0, 4) * 90 : 0f;
+			new PrefabBuilder (obj)
+				.position (x, y)
+				.parent (root)
+				.rotate (rotation)
+				.build ();
+			
+			switch (dir) {
+				case Direction.Horizontal:
+					x++;
+					break;
+				case Direction.Vertical:
+					y++;
+					break;
+				default:
+					throw new Exception ("Failed to create line: invalid direction");
 			}
 		}
 	}
 		
+	private enum Direction { 
+		Vertical,
+		Horizontal
+	}
+
 	private class PrefabBuilder {
 
 		private GameObject obj;
