@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public class LevelGenerator : MonoBehaviour {
 
@@ -28,52 +29,77 @@ public class LevelGenerator : MonoBehaviour {
 
 		generatePlayingField ();
 		generateEdges ();
+		generateCorners ();
 	}
 
 	private void generatePlayingField() {
 		float xPos = -(width / 2f) + 0.5f;;
 		for (int y = 0; y < height; y++) {
 			float yPos = (float) y - (height / 2f) + 0.5f;
-			generateRow (tile, new Vector2(xPos, yPos), new FixedRotation(), width);
+			generateRow (tile, new Vector2(xPos, yPos), Vector2.one, new FixedRotation(), width);
 		}
 	}
 
 	private void generateEdges() {
-		float xPos = -(width / 2f) - 0.5f;
+		float xPos = -(width / 2f) + 0.5f;
 		float yPos = (height / 2f) + 0.5f;
 		Rotation fixedRotation = new FixedRotation(); 
 		Rotation randRotation = new RandomRotation(1);
+		Vector2 scale = new Vector2(1, 0.5f);
 		
-		generateRow (edge, new Vector2(xPos, yPos), fixedRotation, width+2);
-		generateRow (edgeDecoration, new Vector2(xPos, yPos), randRotation, width+2);
-		generateRow (edge, new Vector2(xPos, -yPos), fixedRotation, width+2);
-		generateRow (edgeDecoration, new Vector2(xPos, -yPos), randRotation, width+2);
+		generateRow (edge, new Vector2(xPos, yPos-0.25f), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, -(yPos-0.25f)), scale, fixedRotation, width);
+		generateRow (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, width);
+		generateRow (edgeDecoration, new Vector2(xPos, -yPos), Vector2.one, randRotation, width);
 
 		xPos = (width / 2f) + 0.5f;
 		yPos = -(height / 2f) + 0.5f;
+		scale = new Vector2(0.5f, 1);
 
-		generateColumn (edge, new Vector2(xPos, yPos), fixedRotation, height);
-		generateColumn (edgeDecoration, new Vector2(xPos, yPos), randRotation, height);
-		generateColumn (edge, new Vector2(-xPos, yPos), fixedRotation, height);
-		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), randRotation, height);
+		generateColumn (edge, new Vector2(xPos-0.25f, yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(-(xPos-0.25f), yPos), scale, fixedRotation, height);
+		generateColumn (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, height);
+		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), Vector2.one, randRotation, height);
 	}
 
-	private GameObject[] generateRow(GameObject obj, Vector2 pos, Rotation rotation, int n) {
-		return generateLine (obj, pos, rotation, n, Direction.Horizontal);
+	private void generateCorners() {
+		// top left
+		float xPos = (width / 2f) + 0.25f;
+		float yPos = (height / 2f) + 0.25f;
+
+		Vector2[] positions = new Vector2[4] {
+			new Vector2(xPos, yPos), 
+			new Vector2(-xPos, yPos), 
+			new Vector2(xPos, -yPos), 
+			new Vector2(-xPos, -yPos), 
+		};
+		
+		foreach (Vector2 position in positions) {
+			new Prefabs.PrefabBuilder(edge)
+				.position(position)
+				.scale(0.5f, 0.5f)
+				.parent(root)
+				.build();
+		}
+	}
+	
+	private GameObject[] generateRow(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n) {
+		return generateLine (obj, pos, scale, rotation, n, Direction.Horizontal);
 	}
 
-	private GameObject[] generateColumn(GameObject obj, Vector2 pos, Rotation rotation, int n) {
-		return generateLine (obj, pos, rotation, n, Direction.Vertical);
+	private GameObject[] generateColumn(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n) {
+		return generateLine (obj, pos, scale, rotation, n, Direction.Vertical);
 	}
-
-	private GameObject[] generateLine(GameObject obj, Vector2 pos, Rotation rotation, int n, Direction dir)
+	
+	private GameObject[] generateLine(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n, Direction dir)
 	{
 		GameObject[] objects = new GameObject[n];
 		for (int i = 0; i < n; i++) {
 			objects[i] = new Prefabs.PrefabBuilder (obj)
 				.position (pos)
-				.parent (root)
+				.scale(scale)
 				.rotate (rotation.value())
+				.parent (root)
 				.build ();
 			
 			switch (dir) {
