@@ -32,7 +32,7 @@ public class LevelGenerator : MonoBehaviour {
 		float xPos = -(width / 2f) + 0.5f;;
 		for (int y = 0; y < height; y++) {
 			float yPos = (float) y - (height / 2f) + 0.5f;
-			generateRow (tile, xPos, yPos, width, new FixedRotation());
+			generateRow (tile, new Vector2(xPos, yPos), width, new FixedRotation());
 		}
 	}
 
@@ -41,42 +41,45 @@ public class LevelGenerator : MonoBehaviour {
 		float yPos = (height / 2f) + 0.5f;
 		Rotation rotation = new RandomRotation(90);
 		
-		generateRow (edge, xPos, yPos, width+2, rotation);
-		generateRow (edge, xPos, -yPos, width+2, rotation);
+		generateRow (edge, new Vector2(xPos, yPos), width+2, rotation);
+		generateRow (edge, new Vector2(xPos, -yPos), width+2, rotation);
 
 		xPos = (width / 2f) + 0.5f;
 		yPos = -(height / 2f) + 0.5f;
 
-		generateColumn (edge, xPos, yPos, height, rotation);
-		generateColumn (edge, -xPos, yPos, height, rotation);
+		generateColumn (edge, new Vector2(xPos, yPos), height, rotation);
+		generateColumn (edge, new Vector2(-xPos, yPos), height, rotation);
 	}
 
-	private void generateRow(GameObject obj, float x, float y, int n, Rotation rotation) {
-		generateLine (obj, x, y, n, rotation, Direction.Horizontal);
+	private GameObject[] generateRow(GameObject obj, Vector2 pos, int n, Rotation rotation) {
+		return generateLine (obj, pos, n, rotation, Direction.Horizontal);
 	}
 
-	private void generateColumn(GameObject obj, float x, float y, int n, Rotation rotation) {
-		generateLine (obj, x, y, n, rotation, Direction.Vertical);
+	private GameObject[] generateColumn(GameObject obj, Vector2 pos, int n, Rotation rotation) {
+		return generateLine (obj, pos, n, rotation, Direction.Vertical);
 	}
 
-	private void generateLine(GameObject obj, float x, float y, int n, Rotation rotation, Direction dir) {
+	private GameObject[] generateLine(GameObject obj, Vector2 pos, int n, Rotation rotation, Direction dir)
+	{
+		GameObject[] objects = new GameObject[n];
 		for (int i = 0; i < n; i++) {
-			new Prefabs.PrefabBuilder (obj)
-				.position (x, y)
+			objects[i] = new Prefabs.PrefabBuilder (obj)
+				.position (pos)
 				.parent (root)
 				.rotate (rotation.value())
 				.build ();
-
+			
 			switch (dir) {
 				case Direction.Horizontal:
-					x++;
+					pos.x++;
 					break;
 				case Direction.Vertical:
-					y++;
+					pos.y++;
 					break;
 				default:
 					throw new Exception ("Failed to create line: invalid direction");
 			}
 		}
+		return objects;
 	}
 }

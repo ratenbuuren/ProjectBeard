@@ -15,11 +15,15 @@ public class Prefabs : MonoBehaviour {
     }
 
     public PrefabBuilder position(float x, float y) {
-      obj.transform.position = new Vector2 (x, y);
-      obj.name = String.Format ("{0} [{1},{2}]", template.name, x, y);
-      return this;
+      return position(new Vector2(x, y));
     }
 
+    public PrefabBuilder position(Vector2 pos) {
+      obj.transform.position = pos;
+      obj.name = String.Format ("{0} [{1},{2}]", template.name, pos.x, pos.y);
+      return this;
+    }
+ 
     public PrefabBuilder parent(GameObject parent) {
       obj.transform.parent = parent.transform;
       return this;
