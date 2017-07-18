@@ -758,3 +758,4 @@ MonoBehaviour:
   edge: {fileID: 1730390680011184, guid: 6d458d0f7886a418694b0a7bd161204f, type: 2}
   edgeDecoration: {fileID: 1088976589101178, guid: 11be1a2c0bf96464babe55cf870ea299,
     type: 2}
+  edgeScale: 0.4

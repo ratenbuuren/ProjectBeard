@@ -46,22 +46,22 @@ public class LevelGenerator : MonoBehaviour {
 
 	private void generateEdges() {
 		float xPos = -(width / 2f) + 0.5f;
-		float yPos = (height / 2f) + 0.5f;
+		float yPos = (height / 2f) + 0.5f - offset;
 		Rotation fixedRotation = new FixedRotation(); 
 		Rotation randRotation = new RandomRotation(1);
 		Vector2 scale = new Vector2(1, edgeScale);
 		
-		generateRow (edge, new Vector2(xPos, yPos-offset), scale, fixedRotation, width);
-		generateRow (edge, new Vector2(xPos, -(yPos-offset)), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, yPos), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, -yPos), scale, fixedRotation, width);
 		generateRow (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, width);
 		generateRow (edgeDecoration, new Vector2(xPos, -yPos), Vector2.one, randRotation, width);
 
-		xPos = (width / 2f) + 0.5f;
+		xPos = (width / 2f) + 0.5f - offset;
 		yPos = -(height / 2f) + 0.5f;
 		scale = new Vector2(edgeScale, 1);
 
-		generateColumn (edge, new Vector2(xPos-offset, yPos), scale, fixedRotation, height);
-		generateColumn (edge, new Vector2(-(xPos-offset), yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(xPos, yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(-xPos, yPos), scale, fixedRotation, height);
 		generateColumn (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, height);
 		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), Vector2.one, randRotation, height);
 	}
