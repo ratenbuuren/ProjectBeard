@@ -11,6 +11,7 @@ public class LevelGenerator : MonoBehaviour {
 	public int width = 10;
 	public GameObject tile = null;
 	public GameObject edge = null;
+	public GameObject edgeDecoration = null;
 
 	private GameObject root = null;
 
@@ -19,8 +20,9 @@ public class LevelGenerator : MonoBehaviour {
 			throw new Exception ("Cannot create level out of empty tile objects");
 		} else if (edge == null) {
 			throw new Exception ("Cannot create level out of empty edge objects");
+		} else if (edgeDecoration == null) {
+			throw new Exception ("Cannot create level out of empty edge decoration objects");
 		}
-
 
 		root = new GameObject (rootName);
 
@@ -32,34 +34,39 @@ public class LevelGenerator : MonoBehaviour {
 		float xPos = -(width / 2f) + 0.5f;;
 		for (int y = 0; y < height; y++) {
 			float yPos = (float) y - (height / 2f) + 0.5f;
-			generateRow (tile, new Vector2(xPos, yPos), width, new FixedRotation());
+			generateRow (tile, new Vector2(xPos, yPos), new FixedRotation(), width);
 		}
 	}
 
 	private void generateEdges() {
 		float xPos = -(width / 2f) - 0.5f;
 		float yPos = (height / 2f) + 0.5f;
-		Rotation rotation = new RandomRotation(90);
+		Rotation fixedRotation = new FixedRotation(); 
+		Rotation randRotation = new RandomRotation(1);
 		
-		generateRow (edge, new Vector2(xPos, yPos), width+2, rotation);
-		generateRow (edge, new Vector2(xPos, -yPos), width+2, rotation);
+		generateRow (edge, new Vector2(xPos, yPos), fixedRotation, width+2);
+		generateRow (edgeDecoration, new Vector2(xPos, yPos), randRotation, width+2);
+		generateRow (edge, new Vector2(xPos, -yPos), fixedRotation, width+2);
+		generateRow (edgeDecoration, new Vector2(xPos, -yPos), randRotation, width+2);
 
 		xPos = (width / 2f) + 0.5f;
 		yPos = -(height / 2f) + 0.5f;
 
-		generateColumn (edge, new Vector2(xPos, yPos), height, rotation);
-		generateColumn (edge, new Vector2(-xPos, yPos), height, rotation);
+		generateColumn (edge, new Vector2(xPos, yPos), fixedRotation, height);
+		generateColumn (edgeDecoration, new Vector2(xPos, yPos), randRotation, height);
+		generateColumn (edge, new Vector2(-xPos, yPos), fixedRotation, height);
+		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), randRotation, height);
 	}
 
-	private GameObject[] generateRow(GameObject obj, Vector2 pos, int n, Rotation rotation) {
-		return generateLine (obj, pos, n, rotation, Direction.Horizontal);
+	private GameObject[] generateRow(GameObject obj, Vector2 pos, Rotation rotation, int n) {
+		return generateLine (obj, pos, rotation, n, Direction.Horizontal);
 	}
 
-	private GameObject[] generateColumn(GameObject obj, Vector2 pos, int n, Rotation rotation) {
-		return generateLine (obj, pos, n, rotation, Direction.Vertical);
+	private GameObject[] generateColumn(GameObject obj, Vector2 pos, Rotation rotation, int n) {
+		return generateLine (obj, pos, rotation, n, Direction.Vertical);
 	}
 
-	private GameObject[] generateLine(GameObject obj, Vector2 pos, int n, Rotation rotation, Direction dir)
+	private GameObject[] generateLine(GameObject obj, Vector2 pos, Rotation rotation, int n, Direction dir)
 	{
 		GameObject[] objects = new GameObject[n];
 		for (int i = 0; i < n; i++) {
