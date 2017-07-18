@@ -13,8 +13,11 @@ public class LevelGenerator : MonoBehaviour {
 	public GameObject tile = null;
 	public GameObject edge = null;
 	public GameObject edgeDecoration = null;
+	[Range(0f, 1f)]
+	public float edgeScale = 0.5f;
 
 	private GameObject root = null;
+	private float offset;
 
 	void Start () {
 		if (tile == null) {
@@ -26,6 +29,7 @@ public class LevelGenerator : MonoBehaviour {
 		}
 
 		root = new GameObject (rootName);
+		offset = (0.5f - edgeScale / 2f);
 
 		generatePlayingField ();
 		generateEdges ();
@@ -45,27 +49,27 @@ public class LevelGenerator : MonoBehaviour {
 		float yPos = (height / 2f) + 0.5f;
 		Rotation fixedRotation = new FixedRotation(); 
 		Rotation randRotation = new RandomRotation(1);
-		Vector2 scale = new Vector2(1, 0.5f);
+		Vector2 scale = new Vector2(1, edgeScale);
 		
-		generateRow (edge, new Vector2(xPos, yPos-0.25f), scale, fixedRotation, width);
-		generateRow (edge, new Vector2(xPos, -(yPos-0.25f)), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, yPos-offset), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, -(yPos-offset)), scale, fixedRotation, width);
 		generateRow (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, width);
 		generateRow (edgeDecoration, new Vector2(xPos, -yPos), Vector2.one, randRotation, width);
 
 		xPos = (width / 2f) + 0.5f;
 		yPos = -(height / 2f) + 0.5f;
-		scale = new Vector2(0.5f, 1);
+		scale = new Vector2(edgeScale, 1);
 
-		generateColumn (edge, new Vector2(xPos-0.25f, yPos), scale, fixedRotation, height);
-		generateColumn (edge, new Vector2(-(xPos-0.25f), yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(xPos-offset, yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(-(xPos-offset), yPos), scale, fixedRotation, height);
 		generateColumn (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, height);
 		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), Vector2.one, randRotation, height);
 	}
 
 	private void generateCorners() {
 		// top left
-		float xPos = (width / 2f) + 0.25f;
-		float yPos = (height / 2f) + 0.25f;
+		float xPos = (width / 2f) + 0.5f - offset;
+		float yPos = (height / 2f) + 0.5f - offset;
 
 		Vector2[] positions = new Vector2[4] {
 			new Vector2(xPos, yPos), 
@@ -77,7 +81,7 @@ public class LevelGenerator : MonoBehaviour {
 		foreach (Vector2 position in positions) {
 			new Prefabs.PrefabBuilder(edge)
 				.position(position)
-				.scale(0.5f, 0.5f)
+				.scale(edgeScale, edgeScale)
 				.parent(root)
 				.build();
 		}
