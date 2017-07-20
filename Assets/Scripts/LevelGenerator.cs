@@ -13,8 +13,8 @@ public class LevelGenerator : MonoBehaviour {
 	[Range(0f, 1f)]
 	public float edgeScale = 0.5f;
 
-	private GameObject root = null;
-	private float offset;
+	private GameObject root;
+	private float blockCenterOffset; // the offset of the block compared to the exact center of a 1x1 block
 
 	void Start () {
 		if (tile == null) {
@@ -26,7 +26,7 @@ public class LevelGenerator : MonoBehaviour {
 		}
 
 		root = new GameObject (rootName);
-		offset = (0.5f - edgeScale / 2f);
+		blockCenterOffset = (0.5f - edgeScale / 2f);
 
 		generatePlayingField ();
 		generateEdges ();
@@ -43,7 +43,7 @@ public class LevelGenerator : MonoBehaviour {
 
 	private void generateEdges() {
 		float xPos = -(width / 2f) + 0.5f;
-		float yPos = (height / 2f) + 0.5f - offset;
+		float yPos = (height / 2f) + 0.5f - blockCenterOffset;
 		Rotation fixedRotation = new FixedRotation(); 
 		Rotation randRotation = new RandomRotation(1);
 		Vector2 scale = new Vector2(1, edgeScale);
@@ -53,7 +53,7 @@ public class LevelGenerator : MonoBehaviour {
 		generateRow (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, width);
 		generateRow (edgeDecoration, new Vector2(xPos, -yPos), Vector2.one, randRotation, width);
 
-		xPos = (width / 2f) + 0.5f - offset;
+		xPos = (width / 2f) + 0.5f - blockCenterOffset;
 		yPos = -(height / 2f) + 0.5f;
 		scale = new Vector2(edgeScale, 1);
 
@@ -65,8 +65,8 @@ public class LevelGenerator : MonoBehaviour {
 
 	private void generateCorners() {
 		// top left
-		float xPos = (width / 2f) + 0.5f - offset;
-		float yPos = (height / 2f) + 0.5f - offset;
+		float xPos = (width / 2f) + 0.5f - blockCenterOffset;
+		float yPos = (height / 2f) + 0.5f - blockCenterOffset;
 
 		Vector2[] positions = new Vector2[4] {
 			new Vector2(xPos, yPos), 

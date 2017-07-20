@@ -2,14 +2,14 @@ using System;
 
 public class RandomRotation : Rotation {
 
-  private float interval;
+  private float angleInterval;
 
-  public RandomRotation(float interval = 360) {
-    this.interval = interval;
+  public RandomRotation(float angleInterval = 360) {
+    this.angleInterval = angleInterval;
   }
 
   public override float value() {
-    int n = (int) Math.Ceiling(360 / interval);
-    return UnityEngine.Random.Range (0, n) * interval;
+    int numOptions = (int) Math.Ceiling(360 / angleInterval);
+    return UnityEngine.Random.Range (0, numOptions) * angleInterval;
   }
 }
