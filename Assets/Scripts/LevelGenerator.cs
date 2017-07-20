@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
-using System.Security.Cryptography.X509Certificates;
 
 public class LevelGenerator : MonoBehaviour {
 
