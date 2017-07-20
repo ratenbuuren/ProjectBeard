@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class LevelGenerator : MonoBehaviour {
@@ -11,108 +9,111 @@ public class LevelGenerator : MonoBehaviour {
 	public int width = 10;
 	public GameObject tile = null;
 	public GameObject edge = null;
+	public GameObject edgeDecoration = null;
+	[Range(0f, 1f)]
+	public float edgeScale = 0.5f;
 
-	private GameObject root = null;
+	private GameObject root;
+	private float blockCenterOffset; // the offset of the block compared to the exact center of a 1x1 block
 
 	void Start () {
 		if (tile == null) {
 			throw new Exception ("Cannot create level out of empty tile objects");
 		} else if (edge == null) {
 			throw new Exception ("Cannot create level out of empty edge objects");
+		} else if (edgeDecoration == null) {
+			throw new Exception ("Cannot create level out of empty edge decoration objects");
 		}
 
-
 		root = new GameObject (rootName);
+		blockCenterOffset = (0.5f - edgeScale / 2f);
 
 		generatePlayingField ();
 		generateEdges ();
+		generateCorners ();
 	}
 
 	private void generatePlayingField() {
 		float xPos = -(width / 2f) + 0.5f;;
 		for (int y = 0; y < height; y++) {
 			float yPos = (float) y - (height / 2f) + 0.5f;
-			generateRow (tile, xPos, yPos, width, false);
+			generateRow (tile, new Vector2(xPos, yPos), Vector2.one, new FixedRotation(), width);
 		}
 	}
 
 	private void generateEdges() {
-		float xPos = -(width / 2f) - 0.5f;
-		float yPos = (height / 2f) + 0.5f;
+		float xPos = -(width / 2f) + 0.5f;
+		float yPos = (height / 2f) + 0.5f - blockCenterOffset;
+		Rotation fixedRotation = new FixedRotation(); 
+		Rotation randRotation = new RandomRotation(1);
+		Vector2 scale = new Vector2(1, edgeScale);
+		
+		generateRow (edge, new Vector2(xPos, yPos), scale, fixedRotation, width);
+		generateRow (edge, new Vector2(xPos, -yPos), scale, fixedRotation, width);
+		generateRow (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, width);
+		generateRow (edgeDecoration, new Vector2(xPos, -yPos), Vector2.one, randRotation, width);
 
-		generateRow (edge, xPos, yPos, width+2, true);
-		generateRow (edge, xPos, -yPos, width+2, true);
-
-		xPos = (width / 2f) + 0.5f;
+		xPos = (width / 2f) + 0.5f - blockCenterOffset;
 		yPos = -(height / 2f) + 0.5f;
+		scale = new Vector2(edgeScale, 1);
 
-		generateColumn (edge, xPos, yPos, height, true);
-		generateColumn (edge, -xPos, yPos, height, true);
+		generateColumn (edge, new Vector2(xPos, yPos), scale, fixedRotation, height);
+		generateColumn (edge, new Vector2(-xPos, yPos), scale, fixedRotation, height);
+		generateColumn (edgeDecoration, new Vector2(xPos, yPos), Vector2.one, randRotation, height);
+		generateColumn (edgeDecoration, new Vector2(-xPos, yPos), Vector2.one, randRotation, height);
 	}
 
-	private void generateRow(GameObject obj, float x, float y, int n, bool randRotation) {
-		generateLine (obj, x, y, n, randRotation, Direction.Horizontal);
+	private void generateCorners() {
+		// top left
+		float xPos = (width / 2f) + 0.5f - blockCenterOffset;
+		float yPos = (height / 2f) + 0.5f - blockCenterOffset;
+
+		Vector2[] positions = new Vector2[4] {
+			new Vector2(xPos, yPos), 
+			new Vector2(-xPos, yPos), 
+			new Vector2(xPos, -yPos), 
+			new Vector2(-xPos, -yPos), 
+		};
+		
+		foreach (Vector2 position in positions) {
+			new Prefabs.PrefabBuilder(edge)
+				.position(position)
+				.scale(edgeScale, edgeScale)
+				.parent(root)
+				.build();
+		}
+	}
+	
+	private GameObject[] generateRow(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n) {
+		return generateLine (obj, pos, scale, rotation, n, Direction.Horizontal);
 	}
 
-	private void generateColumn(GameObject obj, float x, float y, int n, bool randRotation) {
-		generateLine (obj, x, y, n, randRotation, Direction.Vertical);
+	private GameObject[] generateColumn(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n) {
+		return generateLine (obj, pos, scale, rotation, n, Direction.Vertical);
 	}
-
-	private void generateLine(GameObject obj, float x, float y, int n, bool randRotation, Direction dir) {
+	
+	private GameObject[] generateLine(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n, Direction dir)
+	{
+		GameObject[] objects = new GameObject[n];
 		for (int i = 0; i < n; i++) {
-			float rotation = randRotation ? UnityEngine.Random.Range (0, 4) * 90 : 0f;
-			new PrefabBuilder (obj)
-				.position (x, y)
+			objects[i] = new Prefabs.PrefabBuilder (obj)
+				.position (pos)
+				.scale(scale)
+				.rotate (rotation.value())
 				.parent (root)
-				.rotate (rotation)
 				.build ();
 			
 			switch (dir) {
 				case Direction.Horizontal:
-					x++;
+					pos.x++;
 					break;
 				case Direction.Vertical:
-					y++;
+					pos.y++;
 					break;
 				default:
 					throw new Exception ("Failed to create line: invalid direction");
 			}
 		}
-	}
-		
-	private enum Direction { 
-		Vertical,
-		Horizontal
-	}
-
-	private class PrefabBuilder {
-
-		private GameObject obj;
-		private GameObject template;
-
-		public PrefabBuilder(GameObject template) {
-			this.template = template;
-			this.obj = Instantiate(template);
-		}
-
-		public PrefabBuilder position(float x, float y) {
-			obj.transform.position = new Vector2 (x, y);
-			obj.name = String.Format ("{0} [{1},{2}]", template.name, x, y);
-			return this;
-		}
-
-		public PrefabBuilder parent(GameObject parent) { 
-			obj.transform.parent = parent.transform;
-			return this;
-		}
-
-		public PrefabBuilder rotate(float angle) {
-			obj.transform.Rotate(new Vector3(0, 0, angle));
-			return this;
-		}
-
-		public GameObject build() {
-			return obj;
-		}
+		return objects;
 	}
 }

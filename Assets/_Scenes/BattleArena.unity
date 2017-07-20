@@ -755,4 +755,7 @@ MonoBehaviour:
   height: 7
   width: 12
   tile: {fileID: 1701253733889428, guid: cb66a95c4fea648d8be1c721e03eddab, type: 2}
-  edge: {fileID: 1492571879944768, guid: d1b565ea208d14708995b2132c79bede, type: 2}
+  edge: {fileID: 1730390680011184, guid: 6d458d0f7886a418694b0a7bd161204f, type: 2}
+  edgeDecoration: {fileID: 1088976589101178, guid: 11be1a2c0bf96464babe55cf870ea299,
+    type: 2}
+  edgeScale: 0.4
