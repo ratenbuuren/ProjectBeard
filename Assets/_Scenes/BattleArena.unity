@@ -759,3 +759,4 @@ MonoBehaviour:
   edgeDecoration: {fileID: 1088976589101178, guid: 11be1a2c0bf96464babe55cf870ea299,
     type: 2}
   edgeScale: 0.4
+  obstacle: {fileID: 1215735642443314, guid: 3b20e86c153be48898b0d9f99ed9826d, type: 2}
