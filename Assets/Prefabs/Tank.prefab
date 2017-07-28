@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 50573259149396020}
   - component: {fileID: 61153764062009842}
   - component: {fileID: 114742900152879794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4508564894579214}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4408242142156776}
   - component: {fileID: 212732359037578748}
   - component: {fileID: 114009277647944422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,10 +171,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e126e133c53a485448404cf238975ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
   projectileVelocity: 5
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
+  power: 3
+  maxspeed: 5
+  turnpower: 2
+  friction: 3
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1

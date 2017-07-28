@@ -4,26 +4,43 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour {
 
-	public float speed = 1;
 	public float projectileVelocity = 1;
 	public GameObject projectilePrefab;
 
-	private Rigidbody2D rb2d;
+	private Rigidbody2D rigidbody2D;
 	private List<GameObject> projectiles = new List<GameObject> ();
+
+	public float power = 3;
+	public float turnpower = 2;
+	public float friction = 3;
 
 	void Start()
 	{
-		rb2d = GetComponent<Rigidbody2D> ();
+		rigidbody2D = GetComponent<Rigidbody2D> ();
 	}
-	
+
+
 	void FixedUpdate()
 	{
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
-		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-		//rb2d.AddForce (movement * speed, ForceMode2D.Impulse);
-		rb2d.velocity = movement * speed;
+
+		if (moveVertical != 0.0f) {
+			if (moveVertical > 0) {
+				rigidbody2D.AddForce(transform.up * power * moveVertical);
+			} else {
+				// Backwards is slower than forwards.
+				rigidbody2D.AddForce(transform.up * (power/2) * moveVertical);
+			}
+			rigidbody2D.drag = friction;
+		} else {
+			// No gas means high drag.
+			rigidbody2D.drag = friction * 4;
+		}
+			
+		transform.Rotate(Vector3.forward * turnpower * -moveHorizontal);
 	}
+
 
 	void Update()
 	{
@@ -65,12 +82,4 @@ public class TankController : MonoBehaviour {
 		}
 	}
 
-
-
-//	void OnTriggerEnter2D(Collider2D other) {
-//		if (other.gameObject.CompareTag ("PickUp")) {
-//
-//			other.gameObject.SetActive (false);
-//		}
-//	}
 }
