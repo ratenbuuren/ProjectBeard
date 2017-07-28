@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour {
 
-	public float projectileVelocity = 1;
 	public GameObject projectilePrefab;
 
 	private Rigidbody2D rigidbody2D;
@@ -59,26 +58,6 @@ public class TankController : MonoBehaviour {
 			bullet.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
 			projectiles.Add (bullet);
-
-		}
-
-		for (int i = 0; i < projectiles.Count; i++) {
-
-			GameObject goBullet = projectiles [i];
-			if (goBullet != null) {
-
-				//Move the sprite towards the mouse
-				goBullet.transform.position += goBullet.transform.up * projectileVelocity * Time.deltaTime;
-
-
-				// Destory Bullets if they get outside the screen
-				Vector3 bulletScreenPos = Camera.main.WorldToScreenPoint (goBullet.transform.position);
-				if (bulletScreenPos.y >= Screen.height || bulletScreenPos.y <= 0) {
-
-					DestroyObject (goBullet);
-					projectiles.Remove (goBullet);
-				}
-			}
 		}
 	}
 
