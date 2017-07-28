@@ -7,7 +7,6 @@ public class TankController : MonoBehaviour {
 	public GameObject projectilePrefab;
 
 	private Rigidbody2D rigidbody2D;
-	private List<GameObject> projectiles = new List<GameObject> ();
 
 	public float power = 3;
 	public float turnpower = 2;
@@ -43,10 +42,8 @@ public class TankController : MonoBehaviour {
 
 	void Update()
 	{
-
 		if (Input.GetButtonDown ("Fire1") || Input.GetKeyDown (KeyCode.Space)) {
-
-			GameObject bullet = (GameObject)Instantiate (projectilePrefab, transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.position, Quaternion.identity);
+			GameObject bullet = (GameObject)Instantiate (projectilePrefab, transform.Find("Barrel").Find("BulletOrigin").position, Quaternion.identity);
 
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			mousePos = new Vector3(mousePos.x, mousePos.y, 0);
@@ -56,9 +53,6 @@ public class TankController : MonoBehaviour {
 			diff.Normalize();
 			float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
 			bullet.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
-
-			projectiles.Add (bullet);
 		}
 	}
-
 }
