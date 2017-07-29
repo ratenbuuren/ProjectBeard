@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 212129515589016560}
   - component: {fileID: 50573259149396020}
   - component: {fileID: 61153764062009842}
-  - component: {fileID: 114742900152879794}
+  - component: {fileID: 114183895187185996}
   m_Layer: 8
-  m_Name: Tank
-  m_TagString: Player
+  m_Name: AITank
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +54,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4408242142156776}
   - component: {fileID: 212732359037578748}
-  - component: {fileID: 114009277647944422}
   m_Layer: 8
   m_Name: Barrel
   m_TagString: Untagged
@@ -148,19 +147,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &114009277647944422
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1604271052549278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd51f61e9d880745a87d1c2097b6f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationOffset: 270
---- !u!114 &114742900152879794
+--- !u!114 &114183895187185996
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,14 +155,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067663092058938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e126e133c53a485448404cf238975ab8, type: 3}
+  m_Script: {fileID: 11500000, guid: 15ad47177a53345b5b1d44437c17e270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
-  power: 3
-  turnpower: 2
-  friction: 3
+  speed: 3
+  fireRange: 4
+  fireRate: 3
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1
