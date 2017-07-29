@@ -160,6 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationOffset: 270
+  controller: 0
+  rotationSpeed: 60
 --- !u!114 &114742900152879794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e126e133c53a485448404cf238975ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
   power: 3

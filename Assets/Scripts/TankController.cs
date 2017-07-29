@@ -44,15 +44,16 @@ public class TankController : BaseTank {
 	{
 		if (Input.GetButtonDown ("Fire1") || Input.GetKeyDown (KeyCode.Space)) {
 			GameObject bullet = (GameObject)Instantiate (projectilePrefab, transform.Find("Barrel").Find("BulletOrigin").position, Quaternion.identity);
-
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			mousePos = new Vector3(mousePos.x, mousePos.y, 0);
-
-			//Rotate the sprite to the mouse point
-			Vector3 diff = mousePos - bullet.transform.position;
-			diff.Normalize();
-			float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-			bullet.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+			//Discuss this during Hackton ;)
+//			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+//			mousePos = new Vector3(mousePos.x, mousePos.y, 0);
+//
+//			//Rotate the sprite to the mouse point
+//			Vector3 diff = mousePos - bullet.transform.position;
+//			diff.Normalize();
+//			float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+//			bullet.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+			bullet.transform.rotation = transform.Find ("Barrel").transform.rotation;
 		}
 	}
 }
