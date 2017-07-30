@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanTankShooting : MonoBehaviour
-{
+public class HumanTankShooting : BaseTank {
 
 	public GameObject projectilePrefab;
 	private Transform barrelTransform;
@@ -16,36 +15,35 @@ public class HumanTankShooting : MonoBehaviour
 	private string fireInput;
 	private string rotateAxis;
 
-	void Start()
-	{
+	protected override void Start() {
+		base.Start();
 		barrelTransform = transform.Find("Barrel");
 		bulletOrigin = barrelTransform.Find("BulletOrigin");
 	}
 
-	public void SetFireInput(string fireInput, string rotateAxis, bool controller)
-	{
+	public void SetFireInput(string fireInput, string rotateAxis, bool controller) {
 		this.fireInput = fireInput;
 		this.rotateAxis = rotateAxis;
 		this.controller = controller;
 	}
 
-	void Update()
-	{
-		if (Input.GetButtonDown(fireInput))
-		{
+	void Update() {
+		if (Input.GetButtonDown(fireInput)) {
 			GameObject bullet = Instantiate(projectilePrefab, bulletOrigin.position, Quaternion.identity);
 			bullet.transform.rotation = barrelTransform.rotation;
+			bullet.transform.localScale = Vector2.one * stats.ProjectileSize;
+
+			ProjectileController pc = bullet.GetComponent<ProjectileController>();
+			pc.Damage = stats.ProjectileDamage;
+			pc.Range = stats.ProjectileRange;
+			pc.Velocity = stats.ProjectileVelocity;
 		}
 	}
 
-	void FixedUpdate()
-	{
-		if (controller)
-		{
+	void FixedUpdate() {
+		if (controller) {
 			barrelTransform.Rotate(0, 0, Input.GetAxis(rotateAxis) * rotationSpeed * Time.deltaTime);
-		}
-		else
-		{
+		} else {
 			// This will calculate the distance between the mouse in the game and the position of the tank turret
 			Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - barrelTransform.position;
 			// This returns simplified values which makes it easier to work with

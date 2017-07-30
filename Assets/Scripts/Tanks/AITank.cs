@@ -11,7 +11,8 @@ public class AITank : BaseTank {
 	private Transform barrelTransform;
 	private float nextFire;
 
-	void Start() {
+	protected override void Start() {
+		base.Start();
 		player = GameObject.FindGameObjectWithTag("Player");
 		barrelTransform = transform.Find("Barrel");
 	}
