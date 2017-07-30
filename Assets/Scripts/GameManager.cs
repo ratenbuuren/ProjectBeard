@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Canvas))]
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public bool gameOver = false;
@@ -14,13 +15,14 @@ public class GameManager : MonoBehaviour {
     private GameObject player;
     private GameObject computerPlayer;
     private List<GameObject> players = new List<GameObject>();
+    private Dictionary<TankStats, Text> _playerStatsUIs = new Dictionary<TankStats, Text>();
 
     public GameObject playerPrefab;
     public GameObject computerPlayerPrefab;
+    public GameObject playerStatsUIPrefab;
     public GameObject[] powerUpPrefabs;
 
-    private Text playerHealthText;
-    private Text computerPlayerHealthText;
+    private GameObject _canvas;
 
     private GameObject gameOverText;
 
@@ -33,19 +35,16 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
+        _canvas = GameObject.Find("Canvas");
         //Create the players
-        CreateHumanPlayer(new Vector3(-5, 0, 0), "HorizontalKeyboard", "VerticalKeyboard", "FireKeyboard",
+        CreateHumanPlayer("Player1 Tank", new Vector3(-5, 0, 0), "HorizontalKeyboard", "VerticalKeyboard", "FireKeyboard",
             "RotateTurretController1", false);
-        CreateHumanPlayer(new Vector3(5, 0, 0), "HorizontalController1", "VerticalController1", "FireController1",
+        CreateHumanPlayer("Player2 Tank", new Vector3(5, 0, 0), "HorizontalController1", "VerticalController1", "FireController1",
             "RotateTurretController1", true);
-        CreateHumanPlayer(new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
+        CreateHumanPlayer("Player2 Tank", new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
             "RotateTurretController2", true);
 
         //computerPlayer = Instantiate(computerPlayerPrefab, new Vector3(5,0,0), Quaternion.identity);
-
-        //Find their text labels
-        playerHealthText = GameObject.Find("PlayerHealthText").GetComponent<Text>();
-        computerPlayerHealthText = GameObject.Find("ComputerPlayerHealthText").GetComponent<Text>();
 
         //Find the game over text
         gameOverText = GameObject.Find("GameOverText");
@@ -54,12 +53,58 @@ public class GameManager : MonoBehaviour {
         InvokeRepeating("SpawnPowerUps", 2.0f, 2.0f);
     }
 
-    private void CreateHumanPlayer(Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
+    private void CreateHumanPlayer(string name, Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
         string rotateTurretAxis, bool controller) {
         player = Instantiate(playerPrefab, postition, Quaternion.identity);
+        player.name = name;
         player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
         player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis, controller);
         players.Add((player));
+        
+        
+        GameObject playerStatsUI = Instantiate(playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
+        playerStatsUI.transform.SetParent(_canvas.transform);
+        
+        playerStatsUI.GetComponent<RectTransform>().anchorMin = GetAnchorForPlayerUI(players.Count);
+        playerStatsUI.GetComponent<RectTransform>().anchorMax = GetAnchorForPlayerUI(players.Count);
+        playerStatsUI.GetComponent<RectTransform>().pivot = GetAnchorForPlayerUI(players.Count);
+        
+        playerStatsUI.GetComponent<RectTransform>().localScale = Vector3.one;
+        playerStatsUI.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        
+        playerStatsUI.GetComponent<Text>().color = GetColorForPlayerUI(players.Count);
+        player.GetComponent<SpriteRenderer>().color = GetColorForPlayerUI(players.Count);
+        _playerStatsUIs.Add(player.GetComponent<TankStats>(), playerStatsUI.GetComponent<Text>());
+    }
+
+    private Vector2 GetAnchorForPlayerUI(int playerNumber) {
+        switch (playerNumber) {
+            case 1:
+                return new Vector2(0, 1);
+            case 2:
+                return new Vector2(1, 1);
+            case 3:
+                return new Vector2(0, 0);
+            case 4: 
+                return new Vector2(0, 1);
+            default:
+                return new Vector2(0, 0);
+        }
+    }
+
+    private Color GetColorForPlayerUI(int playerNumber) {
+        switch (playerNumber) {
+            case 1:
+                return Color.red;
+            case 2:
+                return Color.blue;
+            case 3:
+                return Color.yellow;
+            case 4:
+                return Color.green;
+            default:
+                return Color.black;
+        }
     }
 
     public void RemovePlayer(GameObject player) {
@@ -67,7 +112,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update() {
-        SetHealthTexts();
+        SetStatsUIs();
         CheckGameOver();
 
         // If gameOver, activate text and load MainMenu after 2 seconds
@@ -81,13 +126,23 @@ public class GameManager : MonoBehaviour {
         gameOver = (players.Count == 1);
     }
 
-    void SetHealthTexts() {
-        if (player != null) {
-            playerHealthText.text = "Health: " + player.GetComponent<TankStats>().GetStat(StatType.MaxHealth);
-        }
-        if (computerPlayer != null) {
-            computerPlayerHealthText.text =
-                "Health: " + computerPlayer.GetComponent<TankStats>().GetStat(StatType.MaxHealth);
+    void SetStatsUIs() {
+        //"HP: " + playerStatsUI.Key.GetStat(StatType.Health) + "\n" +
+        //"Armor: " + playerStatsUI.Key.GetStat(StatType.Armor) + "\n" +
+        foreach (KeyValuePair<TankStats, Text> playerStatsUI in _playerStatsUIs) {
+            if (playerStatsUI.Key != null) {
+                playerStatsUI.Value.text =
+                    playerStatsUI.Key.gameObject.name + "\n" +
+                    
+                    "FR: " + playerStatsUI.Key.GetStat(StatType.FireRate) + "\n" +
+                    "DMG: " + playerStatsUI.Key.GetStat(StatType.ProjectileDamage) + "\n" +
+                    "Size: " + playerStatsUI.Key.GetStat(StatType.ProjectileSize) + "\n" +
+                    "PVel: " + playerStatsUI.Key.GetStat(StatType.ProjectileVelocity) + "\n" +
+                    "Range: " + playerStatsUI.Key.GetStat(StatType.ProjectileRange) + "\n" +
+                    "MS: " + playerStatsUI.Key.GetStat(StatType.MovementSpeed) + "\n" +
+                    "MRS: " + playerStatsUI.Key.GetStat(StatType.MovementRotationSpeed) + "\n" +
+                    "TRS: " + playerStatsUI.Key.GetStat(StatType.TurretRotationSpeed) + "\n";
+            }
         }
     }
 
