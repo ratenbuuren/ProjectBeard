@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
 	public static GameManager instance;
 	public bool gameOver = false;
 
-	[Range(1f, 3f)]
-	public int humanPlayers;
-	[Range(0f, 3f)]
-	public int computerPlayers;
+	[Range(1f, 3f)] public int humanPlayers;
+	[Range(0f, 3f)] public int computerPlayers;
 
 	private GameObject player;
 	private GameObject computerPlayer;
+	private List<GameObject> players = new List<GameObject>();
 
 	public GameObject playerPrefab;
 	public GameObject computerPlayerPrefab;
@@ -27,67 +27,89 @@ public class GameManager : MonoBehaviour {
 
 	void Awake()
 	{
-		if (instance == null) {
+		if (instance == null)
+		{
 			instance = this;
-		} else if (instance != this) {
-			Destroy (gameObject);
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
 		}
 	}
 
-	void Start(){
+	void Start()
+	{
 		//Create the players
-		player = Instantiate(playerPrefab, new Vector3(-5,0,0), Quaternion.identity);
-		computerPlayer = Instantiate(computerPlayerPrefab, new Vector3(5,0,0), Quaternion.identity);
+		CreateHumanPlayer(new Vector3(-5, 0, 0), "HorizontalKeyboard", "VerticalKeyboard", "FireKeyboard",
+			"RotateTurretController1", false);
+		CreateHumanPlayer(new Vector3(5, 0, 0), "HorizontalController1", "VerticalController1", "FireController1",
+			"RotateTurretController1", true);
+		CreateHumanPlayer(new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
+			"RotateTurretController2", true);
+
+		//computerPlayer = Instantiate(computerPlayerPrefab, new Vector3(5,0,0), Quaternion.identity);
 
 		//Find their text labels
-		playerHealthText = GameObject.Find ("PlayerHealthText").GetComponent<Text> ();
-		computerPlayerHealthText = GameObject.Find ("ComputerPlayerHealthText").GetComponent<Text> ();
+		playerHealthText = GameObject.Find("PlayerHealthText").GetComponent<Text>();
+		computerPlayerHealthText = GameObject.Find("ComputerPlayerHealthText").GetComponent<Text>();
 
 		//Find the game over text
-		gameOverText = GameObject.Find ("GameOverText");
-		gameOverText.SetActive (false);
+		gameOverText = GameObject.Find("GameOverText");
+		gameOverText.SetActive(false);
+	}
+
+	private void CreateHumanPlayer(Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
+		string rotateTurretAxis, bool controller)
+	{
+		player = Instantiate(playerPrefab, postition, Quaternion.identity);
+		player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
+		player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis, controller);
+		players.Add((player));
 	}
 
 	// Stub method to trigger Game Over state;
-	public void KillPlayer(){
-		player.GetComponent<BaseTank> ().TakeDamage (1000);
+	public void KillPlayer()
+	{
+		player.GetComponent<BaseTank>().TakeDamage(1000);
 	}
 
-	void Update(){
-		SetHealthTexts ();
-		CheckGameOver ();
+	public void RemovePlayer(GameObject player)
+	{
+		players.Remove(player);
+	}
+
+	void Update()
+	{
+		SetHealthTexts();
+		CheckGameOver();
 
 		// If gameOver, activate text and load MainMenu after 2 seconds
-		if(gameOver){
-			gameOverText.SetActive (true);
-			Invoke ("LoadMainMenu", 2f);
+		if (gameOver)
+		{
+			gameOverText.SetActive(true);
+			Invoke("LoadMainMenu", 2f);
 		}
 	}
 
-	void CheckGameOver(){
-		if (player != null) {
-			// Get player health some way
-			if (player.GetComponent<BaseTank> ().GetHealth () <= 0) {
-				gameOver = true;
-				gameOverText.GetComponent<Text> ().text = "Loser";
-			}
-			else if(computerPlayer != null && computerPlayer.GetComponent<BaseTank>().GetHealth () <= 0){
-				gameOver = true;
-				gameOverText.GetComponent<Text> ().text = "Winner";
-			}
+	void CheckGameOver()
+	{
+		gameOver = (players.Count == 1);
+	}
+
+	void SetHealthTexts()
+	{
+		if (player != null)
+		{
+			playerHealthText.text = "Health: " + player.GetComponent<BaseTank>().GetHealth();
+		}
+		if (computerPlayer != null)
+		{
+			computerPlayerHealthText.text = "Health: " + computerPlayer.GetComponent<BaseTank>().GetHealth();
 		}
 	}
 
-	void SetHealthTexts(){
-		if (player != null) {
-			playerHealthText.text = "Health: " + player.GetComponent<BaseTank> ().GetHealth ();
-		}
-		if (computerPlayer != null) {
-			computerPlayerHealthText.text = "Health: " + computerPlayer.GetComponent<BaseTank> ().GetHealth ();
-		}
-	}
-
-	private void LoadMainMenu(){
-		SceneManager.LoadScene ("MainMenu");
+	private void LoadMainMenu()
+	{
+		SceneManager.LoadScene("MainMenu");
 	}
 }
