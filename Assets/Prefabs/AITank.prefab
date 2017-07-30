@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 100
   _armor: 0
-  _fireRate: 2
+  _fireRate: 3
   _projectileDamage: 40
   _projectileSize: 1
   _projectileVelocity: 3

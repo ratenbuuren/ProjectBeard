@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanTankShooting : BaseTank {
-    public GameObject projectilePrefab;
-    private Transform barrelTransform;
-    private Transform bulletOrigin;
-
+public class HumanTankShooting : BaseShooting {
     public int rotationOffset = 270;
     public bool controller = false;
     public float rotationSpeed = 30f;
 
     private string fireInput;
     private string rotateAxis;
-
-    protected override void Start() {
-        base.Start();
-        barrelTransform = transform.Find("Barrel");
-        bulletOrigin = barrelTransform.Find("BulletOrigin");
-    }
 
     public void SetFireInput(string fireInput, string rotateAxis, bool controller) {
         this.fireInput = fireInput;
@@ -28,15 +18,7 @@ public class HumanTankShooting : BaseTank {
 
     void Update() {
         if (Input.GetButtonDown(fireInput)) {
-            GameObject bullet = Instantiate(projectilePrefab, bulletOrigin.position, Quaternion.identity);
-            bullet.transform.rotation = barrelTransform.rotation;
-            bullet.transform.localScale = Vector2.one * stats.GetStat(StatType.ProjectileSize);
-
-            ProjectileController pc = bullet.GetComponent<ProjectileController>();
-            pc.Damage = stats.GetStat(StatType.ProjectileDamage);
-            pc.Range = stats.GetStat(StatType.ProjectileRange);
-            pc.Velocity = stats.GetStat(StatType.ProjectileVelocity);
-            pc.Origin = gameObject;
+            Fire();
         }
     }
 
