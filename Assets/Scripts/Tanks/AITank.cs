@@ -1,41 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AITank : BaseTank {
-    public GameObject projectilePrefab;
+public class AITank : BaseShooting {
     public float fireRangeThreshold = 4f;
-
     private GameObject player;
-    private Transform barrelTransform;
-    private float nextFire;
 
     protected override void Start() {
         base.Start();
-        player = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        if (allPlayers.Length > 0) {
+            player = GameObject.FindGameObjectsWithTag("Player")[0];
+        } else {
+            Debug.Log("Failed to find any player");
+        }
         barrelTransform = transform.Find("Barrel");
     }
 
     void Update() {
+        if (player == null) {
+            return;
+        }
         Vector3 playerPosition = player.transform.position;
         if (Vector3.Distance(transform.position, playerPosition) > fireRangeThreshold) {
             float step = stats.GetStat(StatType.MovementSpeed) * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, playerPosition, step);
         } else {
-            if (Time.time > nextFire) {
-                nextFire = Time.time + stats.GetStat(StatType.FireRate);
-                GameObject bullet = Instantiate(projectilePrefab,
-                    transform.Find("Barrel").Find("BulletOrigin").position,
-                    transform.rotation);
-                bullet.layer = LayerMask.NameToLayer("ProjectileEnemy");
-                bullet.transform.rotation = barrelTransform.rotation;
-                bullet.transform.localScale = Vector2.one * stats.GetStat(StatType.ProjectileSize);
-
-                ProjectileController pc = bullet.GetComponent<ProjectileController>();
-                pc.Damage = stats.GetStat(StatType.ProjectileDamage);
-                pc.Range = stats.GetStat(StatType.ProjectileRange);
-                pc.Velocity = stats.GetStat(StatType.ProjectileVelocity);
-            }
+            Fire();
         }
     }
 }
