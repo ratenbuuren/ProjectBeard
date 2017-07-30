@@ -17,30 +17,18 @@ public class TankStats : MonoBehaviour {
     [SerializeField] private float _movementRotationSpeed = 2f;
     [SerializeField] private float _turretRotationSpeed = 2f;
 
-    [SerializeField] private Dictionary<StatType, float> baseValues = new Dictionary<StatType, float>();
     private Dictionary<StatType, float> currentValues = new Dictionary<StatType, float>();
 
     private Dictionary<StatType, List<PowerUpEntry>> _activePowerUps = new Dictionary<StatType, List<PowerUpEntry>>();
 
     private void Awake() {
-        SetBaseValues();
+        ResetCurrentValues();
         foreach (StatType statType in Enum.GetValues(typeof(StatType))) {
             _activePowerUps[statType] = new List<PowerUpEntry>();
         }
     }
 
-    private void SetBaseValues() {
-        baseValues[StatType.Health] = _health;
-        baseValues[StatType.Armor] = _armor;
-        baseValues[StatType.FireRate] = _fireRate;
-        baseValues[StatType.ProjectileDamage] = _projectileDamage;
-        baseValues[StatType.ProjectileSize] = _projectileSize;
-        baseValues[StatType.ProjectileVelocity] = _projectileVelocity;
-        baseValues[StatType.ProjectileRange] = _projectileRange;
-        baseValues[StatType.MovementSpeed] = _movementSpeed;
-        baseValues[StatType.MovementRotationSpeed] = _movementRotationSpeed;
-        baseValues[StatType.TurretRotationSpeed] = _turretRotationSpeed;
-
+    private void ResetCurrentValues() {
         currentValues[StatType.Health] = _health;
         currentValues[StatType.Armor] = _armor;
         currentValues[StatType.FireRate] = _fireRate;
@@ -62,7 +50,7 @@ public class TankStats : MonoBehaviour {
     }
 
     private void RecalculateStats() {
-        SetBaseValues();
+        ResetCurrentValues();
         foreach (KeyValuePair<StatType, List<PowerUpEntry>> activePowerUp in _activePowerUps) {
             foreach (PowerUpEntry entry in activePowerUp.Value) {
                 if (entry.ApplyType == ApplyType.Addition) {
