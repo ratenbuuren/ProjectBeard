@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 	// Stub method to trigger Game Over state;
 	public void KillPlayer()
 	{
-		player.GetComponent<BaseTank>().TakeDamage(1000);
+		player.GetComponent<TankStats>().TakeDamage(1000);
 	}
 
 	public void RemovePlayer(GameObject player)
@@ -100,11 +100,11 @@ public class GameManager : MonoBehaviour
 	{
 		if (player != null)
 		{
-			playerHealthText.text = "Health: " + player.GetComponent<BaseTank>().GetHealth();
+			playerHealthText.text = "Health: " + player.GetComponent<TankStats>().Health;
 		}
 		if (computerPlayer != null)
 		{
-			computerPlayerHealthText.text = "Health: " + computerPlayer.GetComponent<BaseTank>().GetHealth();
+			computerPlayerHealthText.text = "Health: " + computerPlayer.GetComponent<TankStats>().Health;
 		}
 	}
 

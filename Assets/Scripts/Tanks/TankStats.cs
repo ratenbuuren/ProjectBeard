@@ -14,6 +14,14 @@ public class TankStats : MonoBehaviour {
     [SerializeField] private float _movementRotationSpeed = 2f;
     [SerializeField] private float _turretRotationSpeed = 2f;
 
+    public void TakeDamage(float amount) {
+        _health -= amount;
+        if (_health <= 0) {
+            GameManager.instance.RemovePlayer(this.gameObject);
+            Destroy(gameObject);
+        }
+    }
+    
     public float Health {
         get { return _health; }
         set { _health = value; }

@@ -14,7 +14,7 @@ public class ProjectileController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.name.Contains("Tank")) {
-			other.gameObject.GetComponent<BaseTank>().TakeDamage(damage);
+			other.gameObject.GetComponent<TankStats>().TakeDamage(damage);
 		}
 		Destroy(this.gameObject);
 	}

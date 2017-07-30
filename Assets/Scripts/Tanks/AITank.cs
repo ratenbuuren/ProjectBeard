@@ -37,8 +37,5 @@ public class AITank : BaseTank {
 				pc.Velocity = stats.ProjectileVelocity;
 			}
 		}
-		if (GetHealth() <= 0) {
-			Destroy(gameObject);
-		}
 	}
 }
