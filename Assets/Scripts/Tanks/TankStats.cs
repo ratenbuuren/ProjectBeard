@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using Debug = UnityEngine.Debug;
 
 public class TankStats : MonoBehaviour {
     [SerializeField] private float _maxHealth = 100f;
