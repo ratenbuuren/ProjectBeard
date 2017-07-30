@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerCollider
-  - Flyable
   - Projectile
   - Enemy
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -48,9 +48,12 @@ TagManager:
   - name: Decoration
     uniqueID: 704587809
     locked: 0
-  - name: PickUps
+  - name: PickUp
     uniqueID: 4129888605
     locked: 0
   - name: Player
     uniqueID: 2971515817
+    locked: 0
+  - name: Projectile
+    uniqueID: 497828293
     locked: 0

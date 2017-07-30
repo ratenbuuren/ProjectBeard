@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
 	public GameObject playerPrefab;
 	public GameObject computerPlayerPrefab;
+	public GameObject[] PowerUpPrefabs;
 
 	private Text playerHealthText;
 	private Text computerPlayerHealthText;
@@ -56,6 +57,8 @@ public class GameManager : MonoBehaviour
 		//Find the game over text
 		gameOverText = GameObject.Find("GameOverText");
 		gameOverText.SetActive(false);
+		
+		InvokeRepeating("SpawnPowerUps", 2.0f, 2.0f);
 	}
 
 	private void CreateHumanPlayer(Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
@@ -111,5 +114,14 @@ public class GameManager : MonoBehaviour
 	private void LoadMainMenu()
 	{
 		SceneManager.LoadScene("MainMenu");
+	}
+
+	private void SpawnPowerUps()
+	{
+		int maxX = 12;
+		int maxY = 7;
+		float posX = Random.Range(0, maxX) - (maxX / 2);
+		float posY = Random.Range(0, maxY) - (maxY / 2);
+		Instantiate(PowerUpPrefabs[Random.Range(0, PowerUpPrefabs.Length)], new Vector3(posX, posY, 0), Quaternion.identity);
 	}
 }
