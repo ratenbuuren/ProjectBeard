@@ -2,7 +2,6 @@
 using System;
 
 public class LevelGenerator : MonoBehaviour {
-
     private const string rootName = "Tiles";
 
     public int height = 10;
@@ -117,7 +116,8 @@ public class LevelGenerator : MonoBehaviour {
         return generateLine(obj, pos, scale, rotation, n, Direction.Vertical);
     }
 
-    private GameObject[] generateLine(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n, Direction dir) {
+    private GameObject[] generateLine(GameObject obj, Vector2 pos, Vector2 scale, Rotation rotation, int n,
+        Direction dir) {
         GameObject[] objects = new GameObject[n];
         for (int i = 0; i < n; i++) {
             objects[i] = new Prefabs.PrefabBuilder(obj)

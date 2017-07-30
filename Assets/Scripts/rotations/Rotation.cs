@@ -1,5 +1,3 @@
 public abstract class Rotation {
-
-  public abstract float value();
-
+    public abstract float value();
 }
