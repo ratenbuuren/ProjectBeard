@@ -26,6 +26,8 @@ public class AITank : BaseTank {
 				nextFire = Time.time + stats.FireRate;
 				GameObject bullet = Instantiate (projectilePrefab, transform.Find("Barrel").Find("BulletOrigin").position, transform.rotation);
 				bullet.layer = LayerMask.NameToLayer("ProjectileEnemy");
+				bullet.transform.localScale = Vector2.one * stats.ProjectileSize;
+				
 				ProjectileController pc = bullet.GetComponent<ProjectileController>();
 				pc.Damage = stats.ProjectileDamage;
 				pc.Range = stats.ProjectileRange;

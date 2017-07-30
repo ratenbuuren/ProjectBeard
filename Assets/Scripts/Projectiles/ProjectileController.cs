@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour {
 
-	private float damage;
-	private float velocity;
-	private float range;
+	private float damage = 25f;
+	private float velocity = 3f;
+	private float range = 4f;
 
 	void Start() {
 		Destroy(this.gameObject, range);

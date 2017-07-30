@@ -196,9 +196,9 @@ MonoBehaviour:
   _health: 100
   _armor: 0
   _fireRate: 2
-  _damage: 40
+  _projectileDamage: 40
   _projectileSize: 1
-  _projectileVelocity: 1
+  _projectileVelocity: 3
   _projectileRange: 5
   _movementSpeed: 3
   _movementRotationSpeed: 2
