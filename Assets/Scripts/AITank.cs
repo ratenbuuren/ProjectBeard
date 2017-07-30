@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AITank : MonoBehaviour {
+public class AITank : BaseTank {
 
 	private GameObject player;
 	public GameObject projectilePrefab;
@@ -25,7 +25,8 @@ public class AITank : MonoBehaviour {
 		} else {
 			if (Time.time > nextFire) {
 				nextFire = Time.time + fireRate;
-				GameObject bullet = Instantiate (projectilePrefab, transform.position, transform.rotation);
+				GameObject bullet = Instantiate (projectilePrefab, transform.Find("Barrel").Find("BulletOrigin").position, transform.rotation);
+				bullet.layer = LayerMask.NameToLayer("ProjectileEnemy");
 
 				//Rotate bullet sprite to the mouse point
 				Vector3 diff = playerPosition - bullet.transform.position;
@@ -33,6 +34,9 @@ public class AITank : MonoBehaviour {
 				float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
 				bullet.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 			}
+		}
+		if (GetHealth () <= 0) {
+			Destroy (this.gameObject);
 		}
 	}
 }

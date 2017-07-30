@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50573259149396020}
   - component: {fileID: 61153764062009842}
   - component: {fileID: 114183895187185996}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: AITank
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4508564894579214}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4408242142156776}
   - component: {fileID: 212732359037578748}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ad47177a53345b5b1d44437c17e270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
   speed: 3
