@@ -83,11 +83,11 @@ public class GameManager : MonoBehaviour {
 
     void SetHealthTexts() {
         if (player != null) {
-            playerHealthText.text = "Health: " + player.GetComponent<TankStats>().GetStat(StatType.Health);
+            playerHealthText.text = "Health: " + player.GetComponent<TankStats>().GetStat(StatType.MaxHealth);
         }
         if (computerPlayer != null) {
             computerPlayerHealthText.text =
-                "Health: " + computerPlayer.GetComponent<TankStats>().GetStat(StatType.Health);
+                "Health: " + computerPlayer.GetComponent<TankStats>().GetStat(StatType.MaxHealth);
         }
     }
 

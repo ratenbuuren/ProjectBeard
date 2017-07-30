@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Debug = UnityEngine.Debug;
 
 public class TankStats : MonoBehaviour {
-    [SerializeField] private float _health = 100f;
-    [SerializeField] private float _armor = 0f;
+    [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private float _fireRate = 2f; // shots per second
     [SerializeField] private float _projectileDamage = 40f;
     [SerializeField] private float _projectileSize = 1f;
@@ -18,7 +19,6 @@ public class TankStats : MonoBehaviour {
     [SerializeField] private float _turretRotationSpeed = 2f;
 
     private Dictionary<StatType, float> currentValues = new Dictionary<StatType, float>();
-
     private Dictionary<StatType, List<PowerUpEntry>> _activePowerUps = new Dictionary<StatType, List<PowerUpEntry>>();
 
     private void Awake() {
@@ -29,8 +29,7 @@ public class TankStats : MonoBehaviour {
     }
 
     private void ResetCurrentValues() {
-        currentValues[StatType.Health] = _health;
-        currentValues[StatType.Armor] = _armor;
+        currentValues[StatType.MaxHealth] = _maxHealth;
         currentValues[StatType.FireRate] = _fireRate;
         currentValues[StatType.ProjectileDamage] = _projectileDamage;
         currentValues[StatType.ProjectileSize] = _projectileSize;
@@ -39,14 +38,6 @@ public class TankStats : MonoBehaviour {
         currentValues[StatType.MovementSpeed] = _movementSpeed;
         currentValues[StatType.MovementRotationSpeed] = _movementRotationSpeed;
         currentValues[StatType.TurretRotationSpeed] = _turretRotationSpeed;
-    }
-
-    public void TakeDamage(float amount) {
-        _health -= amount;
-        if (_health <= 0) {
-            GameManager.instance.RemovePlayer(this.gameObject);
-            Destroy(gameObject);
-        }
     }
 
     private void RecalculateStats() {

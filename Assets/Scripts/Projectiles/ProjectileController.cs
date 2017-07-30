@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour {
+    private AmmoType ammoType;
     private float damage = 25f;
     private float velocity = 3f;
     private float range = 4f;
@@ -16,7 +17,7 @@ public class ProjectileController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject != origin) {
             if (other.gameObject.name.Contains("Tank")) {
-                other.gameObject.GetComponent<TankStats>().TakeDamage(damage);
+                other.gameObject.GetComponent<TankHealth>().TakeDamage(damage, ammoType);
             }
             Destroy(gameObject);
         }
@@ -24,6 +25,11 @@ public class ProjectileController : MonoBehaviour {
 
     void Update() {
         transform.position += transform.up * velocity * Time.deltaTime;
+    }
+    
+    public AmmoType AmmoType {
+        get { return ammoType; }
+        set { ammoType = value; }
     }
 
     public float Damage {

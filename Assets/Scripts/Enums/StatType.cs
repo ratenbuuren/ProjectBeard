@@ -1,6 +1,5 @@
 public enum StatType {
-    Health,
-    Armor,
+    MaxHealth,
     FireRate,
     ProjectileDamage,
     ProjectileSize,

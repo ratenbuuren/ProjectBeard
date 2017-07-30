@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114271033118152650}
   - component: {fileID: 114538042202172942}
   - component: {fileID: 114224587635920278}
+  - component: {fileID: 114781756300159576}
   m_Layer: 8
   m_Name: Tank
   m_TagString: Player
@@ -160,9 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fefac242275e44f2fbf0bf7355f48d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
-  _armor: 0
-  _fireRate: 3
+  _maxHealth: 100
+  _fireRate: 5
   _projectileDamage: 40
   _projectileSize: 1
   _projectileVelocity: 3
@@ -198,6 +198,19 @@ MonoBehaviour:
   rotationOffset: 270
   controller: 0
   rotationSpeed: 30
+--- !u!114 &114781756300159576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1067663092058938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856feaa5041034c51a86498058bb5b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armorPrefab: {fileID: 1457665543350538, guid: 549ef726a26b749188713a5aab38f048,
+    type: 2}
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -228,7 +241,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1323451479
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 09d252a38b7f0472a9a2e0a028753670, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -268,7 +281,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1323451479
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: fefef56b174154ed59083984a786c185, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
