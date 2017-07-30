@@ -16,7 +16,7 @@ public class ProjectileController : MonoBehaviour {
 		if (other.gameObject.name.Contains("Tank")) {
 			other.gameObject.GetComponent<TankStats>().TakeDamage(damage);
 		}
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 	void Update() {
