@@ -1,23 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BaseTank : MonoBehaviour
-{
-	public float health = 100f;
+[RequireComponent(typeof(TankStats))]
+public class BaseTank : MonoBehaviour {
 
-	public float GetHealth()
-	{
-		return health;
-	}
+	protected TankStats stats;
 
-	public void TakeDamage(float amount)
-	{
-		health -= amount;
-		if (health <= 0)
-		{
-			GameManager.instance.RemovePlayer(this.gameObject);
-			Destroy(gameObject);
-		}
+	protected virtual void Start() {
+		stats = GetComponent<TankStats>();
 	}
 }

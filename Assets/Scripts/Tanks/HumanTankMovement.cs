@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanTankMovement : MonoBehaviour
+public class HumanTankMovement : BaseTank
 {
 	private Rigidbody2D rigidbody2D;
 
-	public float power = 3;
-	public float turnpower = 2;
 	public float friction = 3;
 
 	private string horizontalAxis;
 	private string verticalAxis;
 
-	void Start()
-	{
+	protected override void Start() {
+		base.Start();
 		rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
@@ -34,12 +32,12 @@ public class HumanTankMovement : MonoBehaviour
 		{
 			if (moveVertical > 0)
 			{
-				rigidbody2D.AddForce(transform.up * power * moveVertical);
+				rigidbody2D.AddForce(transform.up * stats.MovementSpeed * moveVertical);
 			}
 			else
 			{
 				// Backwards is slower than forwards.
-				rigidbody2D.AddForce(transform.up * (power / 2) * moveVertical);
+				rigidbody2D.AddForce(transform.up * (stats.MovementSpeed / 2) * moveVertical);
 			}
 			rigidbody2D.drag = friction;
 		}
@@ -49,6 +47,6 @@ public class HumanTankMovement : MonoBehaviour
 			rigidbody2D.drag = friction * 4;
 		}
 
-		transform.Rotate(Vector3.forward * turnpower * -moveHorizontal);
+		transform.Rotate(Vector3.forward * stats.MovementRotationSpeed * -moveHorizontal);
 	}
 }

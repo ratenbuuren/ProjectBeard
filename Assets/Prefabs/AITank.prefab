@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50573259149396020}
   - component: {fileID: 61153764062009842}
   - component: {fileID: 114183895187185996}
+  - component: {fileID: 114023216053628330}
   m_Layer: 11
   m_Name: AITank
   m_TagString: Enemy
@@ -147,6 +148,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &114023216053628330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1067663092058938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefac242275e44f2fbf0bf7355f48d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _armor: 0
+  _fireRate: 2
+  _projectileDamage: 40
+  _projectileSize: 1
+  _projectileVelocity: 3
+  _projectileRange: 5
+  _movementSpeed: 3
+  _movementRotationSpeed: 2
+  _turretRotationSpeed: 2
 --- !u!114 &114183895187185996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,15 +177,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067663092058938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ad47177a53345b5b1d44437c17e270, type: 3}
+  m_Script: {fileID: 11500000, guid: aa1c00ef9023e44c69364518a38c197b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
-    type: 2}
-  speed: 3
-  fireRange: 4
-  fireRate: 3
+  projectilePrefab: {fileID: 0}
+  fireRangeThreshold: 4
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1

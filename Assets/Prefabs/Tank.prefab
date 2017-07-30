@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212129515589016560}
   - component: {fileID: 50573259149396020}
   - component: {fileID: 61153764062009842}
-  - component: {fileID: 114952350912212632}
   - component: {fileID: 114271033118152650}
-  - component: {fileID: 114446575005905150}
+  - component: {fileID: 114538042202172942}
+  - component: {fileID: 114224587635920278}
   m_Layer: 8
   m_Name: Tank
   m_TagString: Player
@@ -149,6 +149,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &114224587635920278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1067663092058938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefac242275e44f2fbf0bf7355f48d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _armor: 0
+  _fireRate: 2
+  _projectileDamage: 40
+  _projectileSize: 1
+  _projectileVelocity: 3
+  _projectileRange: 5
+  _movementSpeed: 3
+  _movementRotationSpeed: 2
+  _turretRotationSpeed: 2
 --- !u!114 &114271033118152650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,10 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12ef03fc651544068497d440bb6f62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 5
-  turnpower: 2
   friction: 3
---- !u!114 &114446575005905150
+--- !u!114 &114538042202172942
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -171,26 +190,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067663092058938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e126e133c53a485448404cf238975ab8, type: 3}
+  m_Script: {fileID: 11500000, guid: b02a55cfebf434ed48478dc5910d5b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
   rotationOffset: 270
   controller: 0
-  rotationSpeed: 60
---- !u!114 &114952350912212632
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1067663092058938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95379669d1aec4911b12a81f28ca0a7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
+  rotationSpeed: 30
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1
