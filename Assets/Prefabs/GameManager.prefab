@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1444765191186460}
+  m_IsPrefabParent: 1
+--- !u!1 &1444765191186460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4905819964294130}
+  - component: {fileID: 114728703697704948}
+  - component: {fileID: 114241171258069228}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4905819964294130
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444765191186460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114241171258069228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444765191186460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f98922e74d3254191899651248baa577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 7
+  width: 12
+  tile: {fileID: 1701253733889428, guid: cb66a95c4fea648d8be1c721e03eddab, type: 2}
+  edge: {fileID: 1730390680011184, guid: 6d458d0f7886a418694b0a7bd161204f, type: 2}
+  edgeDecoration: {fileID: 1088976589101178, guid: 11be1a2c0bf96464babe55cf870ea299,
+    type: 2}
+  edgeScale: 0.4
+  obstacle: {fileID: 1215735642443314, guid: 3b20e86c153be48898b0d9f99ed9826d, type: 2}
+--- !u!114 &114728703697704948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444765191186460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ebea4756520419a93a73e3c3bc1af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOver: 0
+  humanPlayers: 1
+  computerPlayers: 0
+  playerPrefab: {fileID: 1067663092058938, guid: eae1e564b4959df48bf9204f7103b044,
+    type: 2}
+  computerPlayerPrefab: {fileID: 1067663092058938, guid: 081c34a0e06b34c2ebe83922d45c6e09,
+    type: 2}
+  PowerUpPrefabs:
+  - {fileID: 1215735642443314, guid: ae2b2652b47f64d048f7cdf15e42e460, type: 2}
+  - {fileID: 1215735642443314, guid: 13df72d94b7054e4fb9e3d0486ad446a, type: 2}
+  - {fileID: 1215735642443314, guid: 9761d55e01574409a9be3f16240a6ab1, type: 2}
+  - {fileID: 1215735642443314, guid: fa99bccbdc9134221b70c9970abfa653, type: 2}

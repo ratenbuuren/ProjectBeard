@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212012140508390156}
   - component: {fileID: 61270134198030014}
   - component: {fileID: 114143552655562578}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SniperTank
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
@@ -79,10 +79,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpEntries:
-  - Stat: 6
+  - StatType: 6
     ApplyType: 1
     Amount: 2
-  - Stat: 2
+  - StatType: 2
     ApplyType: 1
     Amount: 0.5
 --- !u!212 &212012140508390156

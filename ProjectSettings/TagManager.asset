@@ -21,7 +21,7 @@ TagManager:
   - Terrain
   - Projectile
   - Enemy
-  - 
+  - PickUp
   - 
   - 
   - 
@@ -48,12 +48,12 @@ TagManager:
   - name: Decoration
     uniqueID: 704587809
     locked: 0
-  - name: PickUp
+  - name: PickUps
     uniqueID: 4129888605
     locked: 0
   - name: Player
     uniqueID: 2971515817
     locked: 0
   - name: Projectile
-    uniqueID: 497828293
+    uniqueID: 3969107427
     locked: 0

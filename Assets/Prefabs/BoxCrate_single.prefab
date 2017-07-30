@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4571208412289872}
   - component: {fileID: 212012140508390156}
   - component: {fileID: 61270134198030014}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BoxCrate_single
   m_TagString: Untagged
   m_Icon: {fileID: 0}

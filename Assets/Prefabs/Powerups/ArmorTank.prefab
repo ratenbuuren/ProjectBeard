@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212012140508390156}
   - component: {fileID: 61270134198030014}
   - component: {fileID: 114143552655562578}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ArmorTank
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
@@ -79,10 +79,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpEntries:
-  - Stat: 0
+  - StatType: 1
     ApplyType: 1
     Amount: 2
-  - Stat: 7
+  - StatType: 7
     ApplyType: 1
     Amount: 0.5
 --- !u!212 &212012140508390156

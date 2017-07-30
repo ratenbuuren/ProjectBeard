@@ -1,5 +1,5 @@
 public enum AmmoType {
-  Normal,
-  ArmorPiercing,
-  Explosive,
+    Normal,
+    ArmorPiercing,
+    Explosive,
 }

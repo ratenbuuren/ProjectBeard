@@ -1,4 +1,4 @@
 public enum ApplyType {
-  Addition,
-  Multiply
+    Addition,
+    Multiply
 }
