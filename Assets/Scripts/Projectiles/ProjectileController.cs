@@ -1,29 +1,44 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour
-{
-	public float damage = 40f;
-	public float projectileVelocity = 1;
-	private float timeToLive = 5f;
+public class ProjectileController : MonoBehaviour {
 
-	void Start()
-	{
-		Destroy(gameObject, timeToLive);
+	private float damage;
+	private float velocity;
+	private float range;
+
+	void Start() {
+		Destroy(this.gameObject, range);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.gameObject.name.Contains("Tank"))
-		{
-			other.gameObject.GetComponent<BaseTank>().TakeDamage(damage);
-			Destroy(gameObject);
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.name.Contains("Tank")) {
+			if(other.tag == "Player") {
+				other.gameObject.GetComponent<TankController>().TakeDamage(damage);
+			} else {
+				other.gameObject.GetComponent<AITank>().TakeDamage(damage);
+			} 
 		}
+		Destroy(this.gameObject);
 	}
 
-	void Update()
-	{
-		transform.position += transform.up * projectileVelocity * Time.deltaTime;
+	void Update() {
+		transform.position += transform.up * velocity * Time.deltaTime;
+	}
+
+	public float Damage {
+		get { return damage; }
+		set { damage = value; }
+	}
+
+	public float Velocity {
+		get { return velocity; }
+		set { velocity = value; }
+	}
+
+	public float Range {
+		get { return range; }
+		set { range = value; }
 	}
 }
