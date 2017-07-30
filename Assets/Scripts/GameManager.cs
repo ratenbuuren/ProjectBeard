@@ -62,11 +62,6 @@ public class GameManager : MonoBehaviour {
         players.Add((player));
     }
 
-    // Stub method to trigger Game Over state;
-    public void KillPlayer() {
-        player.GetComponent<TankStats>().TakeDamage(1000);
-    }
-
     public void RemovePlayer(GameObject player) {
         players.Remove(player);
     }
