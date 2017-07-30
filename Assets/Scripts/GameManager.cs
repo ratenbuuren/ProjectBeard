@@ -133,7 +133,6 @@ public class GameManager : MonoBehaviour {
             if (playerStatsUI.Key != null) {
                 playerStatsUI.Value.text =
                     playerStatsUI.Key.gameObject.name + "\n" +
-                    
                     "FR: " + playerStatsUI.Key.GetStat(StatType.FireRate) + "\n" +
                     "DMG: " + playerStatsUI.Key.GetStat(StatType.ProjectileDamage) + "\n" +
                     "Size: " + playerStatsUI.Key.GetStat(StatType.ProjectileSize) + "\n" +
