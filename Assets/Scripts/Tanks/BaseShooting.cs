@@ -26,6 +26,7 @@ public class BaseShooting : BaseTank {
             pc.Damage = stats.GetStat(StatType.ProjectileDamage);
             pc.Range = stats.GetStat(StatType.ProjectileRange);
             pc.Velocity = stats.GetStat(StatType.ProjectileVelocity);
+            pc.Origin = gameObject;
             
             StartCoroutine("Reload");
         }

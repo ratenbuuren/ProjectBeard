@@ -78,13 +78,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c25064ad6bb4099a5680b09b7aebd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 20
+  armor: 30
   powerUpEntries:
-  - StatType: 1
+  - StatType: 0
+    ApplyType: 0
+    Amount: 20
+  - StatType: 6
     ApplyType: 1
-    Amount: 2
-  - StatType: 7
-    ApplyType: 1
-    Amount: 0.5
+    Amount: 0.75
 --- !u!212 &212012140508390156
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -115,7 +117,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -165078691
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f0862e87bc1934502b099639840124fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

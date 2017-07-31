@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Shield
+    uniqueID: 3146409741
+    locked: 0
   - name: Decoration
     uniqueID: 704587809
     locked: 0
