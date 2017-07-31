@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Canvas))]
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public bool gameOver = false;
@@ -12,10 +11,17 @@ public class GameManager : MonoBehaviour {
     [Range(1f, 3f)] public int humanPlayers;
     [Range(0f, 3f)] public int computerPlayers;
 
+    public Color ColorPlayer1 = Color.red;
+    public Color ColorPlayer2 = Color.blue;
+    public Color ColorPlayer3 = Color.yellow;
+    public Color ColorPlayer4 = Color.green;
+    private List<Color> _playerColors = new List<Color>();
+    private List<Vector2> _playerUiAnchors = new List<Vector2>();
+
     private GameObject player;
     private GameObject computerPlayer;
     private List<GameObject> players = new List<GameObject>();
-    private Dictionary<TankStats, Text> _playerStatsUIs = new Dictionary<TankStats, Text>();
+    private Dictionary<GameObject, Text> _playerStatsUis = new Dictionary<GameObject, Text>();
 
     public GameObject playerPrefab;
     public GameObject computerPlayerPrefab;
@@ -36,6 +42,7 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         _canvas = GameObject.Find("Canvas");
+        AddColorsAndAnchorsToList();
         //Create the players
         CreateHumanPlayer("Player1 Tank", new Vector3(-5, 0, 0), "HorizontalKeyboard", "VerticalKeyboard", "FireKeyboard",
             "RotateTurretController1", false);
@@ -53,6 +60,17 @@ public class GameManager : MonoBehaviour {
         InvokeRepeating("SpawnPowerUps", 2.0f, 2.0f);
     }
 
+    private void AddColorsAndAnchorsToList() {
+        _playerColors.Add(ColorPlayer1);
+        _playerColors.Add(ColorPlayer2);
+        _playerColors.Add(ColorPlayer3);
+        _playerColors.Add(ColorPlayer4);
+        _playerUiAnchors.Add(new Vector2(0, 1));
+        _playerUiAnchors.Add(new Vector2(1, 1));
+        _playerUiAnchors.Add(new Vector2(0, 0));
+        _playerUiAnchors.Add(new Vector2(0, 1));
+    }
+
     private void CreateHumanPlayer(string name, Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
         string rotateTurretAxis, bool controller) {
         player = Instantiate(playerPrefab, postition, Quaternion.identity);
@@ -60,55 +78,29 @@ public class GameManager : MonoBehaviour {
         player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
         player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis, controller);
         players.Add((player));
-        
-        
-        GameObject playerStatsUI = Instantiate(playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
-        playerStatsUI.transform.SetParent(_canvas.transform);
-        
-        playerStatsUI.GetComponent<RectTransform>().anchorMin = GetAnchorForPlayerUI(players.Count);
-        playerStatsUI.GetComponent<RectTransform>().anchorMax = GetAnchorForPlayerUI(players.Count);
-        playerStatsUI.GetComponent<RectTransform>().pivot = GetAnchorForPlayerUI(players.Count);
-        
-        playerStatsUI.GetComponent<RectTransform>().localScale = Vector3.one;
-        playerStatsUI.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        
-        playerStatsUI.GetComponent<Text>().color = GetColorForPlayerUI(players.Count);
-        player.GetComponent<SpriteRenderer>().color = GetColorForPlayerUI(players.Count);
-        _playerStatsUIs.Add(player.GetComponent<TankStats>(), playerStatsUI.GetComponent<Text>());
+
+        CreatePlayerStatsUi(players.Count, player);
     }
 
-    private Vector2 GetAnchorForPlayerUI(int playerNumber) {
-        switch (playerNumber) {
-            case 1:
-                return new Vector2(0, 1);
-            case 2:
-                return new Vector2(1, 1);
-            case 3:
-                return new Vector2(0, 0);
-            case 4: 
-                return new Vector2(0, 1);
-            default:
-                return new Vector2(0, 0);
-        }
-    }
+    private void CreatePlayerStatsUi(int playerNumber, GameObject player) {
+        GameObject playerStatsUi = Instantiate(playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
+        playerStatsUi.transform.SetParent(_canvas.transform);
+        
+        playerStatsUi.GetComponent<RectTransform>().anchorMin = _playerUiAnchors[playerNumber - 1];
+        playerStatsUi.GetComponent<RectTransform>().anchorMax = _playerUiAnchors[playerNumber - 1];
+        playerStatsUi.GetComponent<RectTransform>().pivot = _playerUiAnchors[playerNumber - 1];
+        
+        playerStatsUi.GetComponent<RectTransform>().localScale = Vector3.one;
+        playerStatsUi.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 
-    private Color GetColorForPlayerUI(int playerNumber) {
-        switch (playerNumber) {
-            case 1:
-                return Color.red;
-            case 2:
-                return Color.blue;
-            case 3:
-                return Color.yellow;
-            case 4:
-                return Color.green;
-            default:
-                return Color.black;
-        }
+        playerStatsUi.GetComponent<Text>().color = _playerColors[playerNumber - 1];
+        player.GetComponent<SpriteRenderer>().color = _playerColors[playerNumber - 1];
+        _playerStatsUis.Add(player, playerStatsUi.GetComponent<Text>());
     }
 
     public void RemovePlayer(GameObject player) {
         players.Remove(player);
+        Destroy(_playerStatsUis[player].gameObject);
     }
 
     void Update() {
@@ -127,20 +119,22 @@ public class GameManager : MonoBehaviour {
     }
 
     void SetStatsUIs() {
-        //"HP: " + playerStatsUI.Key.GetStat(StatType.Health) + "\n" +
-        //"Armor: " + playerStatsUI.Key.GetStat(StatType.Armor) + "\n" +
-        foreach (KeyValuePair<TankStats, Text> playerStatsUI in _playerStatsUIs) {
+        foreach (KeyValuePair<GameObject, Text> playerStatsUI in _playerStatsUis) {
             if (playerStatsUI.Key != null) {
+                TankHealth healthScript = playerStatsUI.Key.GetComponent<TankHealth>();
+                TankStats statsScript = playerStatsUI.Key.GetComponent<TankStats>();
                 playerStatsUI.Value.text =
                     playerStatsUI.Key.gameObject.name + "\n" +
-                    "FR: " + playerStatsUI.Key.GetStat(StatType.FireRate) + "\n" +
-                    "DMG: " + playerStatsUI.Key.GetStat(StatType.ProjectileDamage) + "\n" +
-                    "Size: " + playerStatsUI.Key.GetStat(StatType.ProjectileSize) + "\n" +
-                    "PVel: " + playerStatsUI.Key.GetStat(StatType.ProjectileVelocity) + "\n" +
-                    "Range: " + playerStatsUI.Key.GetStat(StatType.ProjectileRange) + "\n" +
-                    "MS: " + playerStatsUI.Key.GetStat(StatType.MovementSpeed) + "\n" +
-                    "MRS: " + playerStatsUI.Key.GetStat(StatType.MovementRotationSpeed) + "\n" +
-                    "TRS: " + playerStatsUI.Key.GetStat(StatType.TurretRotationSpeed) + "\n";
+                    "HP: " + healthScript.CurrentHealth + "\n" +
+                    "Armor: " + healthScript.CurrentArmor + "\n" +
+                    "FR: " + statsScript.GetStat(StatType.FireRate) + "\n" +
+                    "DMG: " + statsScript.GetStat(StatType.ProjectileDamage) + "\n" +
+                    "Size: " + statsScript.GetStat(StatType.ProjectileSize) + "\n" +
+                    "PVel: " + statsScript.GetStat(StatType.ProjectileVelocity) + "\n" +
+                    "Range: " + statsScript.GetStat(StatType.ProjectileRange) + "\n" +
+                    "MS: " + statsScript.GetStat(StatType.MovementSpeed) + "\n" +
+                    "MRS: " + statsScript.GetStat(StatType.MovementRotationSpeed) + "\n" +
+                    "TRS: " + statsScript.GetStat(StatType.TurretRotationSpeed) + "\n";
             }
         }
     }

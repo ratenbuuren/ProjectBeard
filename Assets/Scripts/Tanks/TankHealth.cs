@@ -13,7 +13,17 @@ public class TankHealth : BaseTank {
 		base.Start();
 		_currentHealth = stats.GetStat(StatType.MaxHealth);
 	}
-	
+
+	public float CurrentHealth {
+		get { return _currentHealth; }
+		set { _currentHealth = value; }
+	}
+
+	public float CurrentArmor {
+		get { return _currentArmor; }
+		set { _currentArmor = value; }
+	}
+
 	public void TakeDamage(float amount, AmmoType ammoType) {
 		float armorDmg = ArmorDmg(amount, ammoType);
 		float healthDmg = amount - armorDmg;
