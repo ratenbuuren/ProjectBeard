@@ -169,6 +169,7 @@ MonoBehaviour:
   _movementSpeed: 3
   _movementRotationSpeed: 2
   _turretRotationSpeed: 2
+  _ammoType: 0
 --- !u!114 &114183895187185996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,7 +181,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1c00ef9023e44c69364518a38c197b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
+  normalAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+    type: 2}
+  piercingAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+    type: 2}
+  explosiveAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+    type: 2}
   fireRangeThreshold: 4
 --- !u!114 &114402291334729936
 MonoBehaviour:

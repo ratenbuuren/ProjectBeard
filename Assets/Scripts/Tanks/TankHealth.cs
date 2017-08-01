@@ -9,7 +9,7 @@ public class TankHealth : BaseTank {
 	private float _currentHealth;
 	private float _currentArmor;
 	
-	protected virtual void Start() {
+	protected override void Start() {
 		base.Start();
 		_currentHealth = stats.GetStat(StatType.MaxHealth);
 	}

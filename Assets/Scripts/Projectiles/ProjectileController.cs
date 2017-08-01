@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour {
-    private AmmoType ammoType;
+    private AmmoType ammoType = AmmoType.Normal;
     private float damage = 25f;
     private float velocity = 3f;
     private float range = 4f;
