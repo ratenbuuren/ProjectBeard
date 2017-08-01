@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour {
-    private AmmoType ammoType = AmmoType.Normal;
-    private float damage = 25f;
+public abstract class ProjectileController : MonoBehaviour {
+    protected AmmoType ammoType = AmmoType.Normal;
+    protected float damage = 25f;
+    
     private float velocity = 3f;
-    private float range = 4f;
+    private  float range = 4f;
 
     private GameObject origin;
 
@@ -16,12 +17,12 @@ public class ProjectileController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject != origin) {
-            if (other.gameObject.name.Contains("Tank")) {
-                other.gameObject.GetComponent<TankHealth>().TakeDamage(damage, ammoType);
-            }
+            dealDamage(other);
             Destroy(gameObject);
         }
     }
+
+    protected abstract void dealDamage(Collider2D other);
 
     void Update() {
         transform.position += transform.up * velocity * Time.deltaTime;

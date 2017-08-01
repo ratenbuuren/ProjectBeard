@@ -16,20 +16,10 @@ public class TankHealth : BaseTank {
 
 	public float CurrentHealth {
 		get { return _currentHealth; }
-		set { _currentHealth = value; }
 	}
 
 	public float CurrentArmor {
 		get { return _currentArmor; }
-		set { _currentArmor = value; }
-	}
-
-	public void TakeDamage(float amount, AmmoType ammoType) {
-		float armorDmg = ArmorDmg(amount, ammoType);
-		float healthDmg = amount - armorDmg;
-        
-		AddArmor(-armorDmg);
-		AddHealth(-healthDmg);
 	}
 
 	public void AddHealth(float amount) {
@@ -39,7 +29,7 @@ public class TankHealth : BaseTank {
 			Destroy(gameObject);
 		}
 	}
-
+	
 	public void AddArmor(float amount) {
 		_currentArmor = Math.Max(_currentArmor + amount, 0);
 
@@ -53,18 +43,4 @@ public class TankHealth : BaseTank {
 			armorChild.transform.position = gameObject.transform.position;
 		}
 	}
-
-	private float ArmorDmg(float amount, AmmoType type) {
-		float result;
-		switch (type) {
-			case AmmoType.ArmorPiercing:
-				result = 0f;
-				break;
-			default:
-				result = Math.Min(amount, _currentArmor);
-				break;
-		}
-		return result;
-	}
-	
 }
