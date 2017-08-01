@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
             "RotateTurretController1", false);
         CreateHumanPlayer("Player2 Tank", new Vector3(5, 0, 0), "HorizontalController1", "VerticalController1", "FireController1",
             "RotateTurretController1", true);
-        CreateHumanPlayer("Player2 Tank", new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
+        CreateHumanPlayer("Player3 Tank", new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
             "RotateTurretController2", true);
 
         //computerPlayer = Instantiate(computerPlayerPrefab, new Vector3(5,0,0), Quaternion.identity);
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour {
                 TankStats statsScript = playerStatsUI.Key.GetComponent<TankStats>();
                 playerStatsUI.Value.text =
                     playerStatsUI.Key.gameObject.name + "\n" +
-                    "HP: " + healthScript.CurrentHealth + "\n" +
+                    "HP: " + healthScript.CurrentHealth + "/" + statsScript.GetStat(StatType.MaxHealth) + "\n" +
                     "Armor: " + healthScript.CurrentArmor + "\n" +
                     "FR: " + statsScript.GetStat(StatType.FireRate) + "\n" +
                     "DMG: " + statsScript.GetStat(StatType.ProjectileDamage) + "\n" +
