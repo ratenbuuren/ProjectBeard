@@ -9,8 +9,8 @@ public class NormalProjectileController : ProjectileController {
             float armorDmg = Math.Min(damage, tankHealth.CurrentArmor);
             float healthDmg = damage - armorDmg;
 
-            tankHealth.AddArmor(-armorDmg);
-            tankHealth.AddHealth(-healthDmg);
+            tankHealth.ChangeArmor(-armorDmg);
+            tankHealth.ChangeHealth(-healthDmg);
         }
     }
 }

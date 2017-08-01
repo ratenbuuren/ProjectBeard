@@ -12,8 +12,8 @@ public class PowerUp : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.name.Contains("Tank")) {
 			other.gameObject.GetComponent<TankStats>().AddStats(powerUpEntries);
-			other.gameObject.GetComponent<TankHealth>().AddHealth(health);
-			other.gameObject.GetComponent<TankHealth>().AddArmor(armor);
+			other.gameObject.GetComponent<TankHealth>().ChangeHealth(health);
+			other.gameObject.GetComponent<TankHealth>().ChangeArmor(armor);
 			if (ammoType != AmmoType.Default) {
 				other.gameObject.GetComponent<TankStats>().AmmoType = ammoType;
 			}

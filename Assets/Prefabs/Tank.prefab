@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
-  piercingAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+  piercingAmmoPrefab: {fileID: 1493914534035564, guid: 48c6779531ecd46c091b976ab2b4daea,
     type: 2}
   explosiveAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
