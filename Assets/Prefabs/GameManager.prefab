@@ -78,7 +78,9 @@ MonoBehaviour:
     type: 2}
   computerPlayerPrefab: {fileID: 1067663092058938, guid: 081c34a0e06b34c2ebe83922d45c6e09,
     type: 2}
-  PowerUpPrefabs:
+  playerStatsUIPrefab: {fileID: 1419372221005926, guid: 2ebd74482a8c44fdebe0ce498228213d,
+    type: 2}
+  powerUpPrefabs:
   - {fileID: 1215735642443314, guid: ae2b2652b47f64d048f7cdf15e42e460, type: 2}
   - {fileID: 1215735642443314, guid: 13df72d94b7054e4fb9e3d0486ad446a, type: 2}
   - {fileID: 1215735642443314, guid: 9761d55e01574409a9be3f16240a6ab1, type: 2}
