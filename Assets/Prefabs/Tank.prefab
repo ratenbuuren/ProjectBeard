@@ -196,8 +196,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
     type: 2}
   rotationOffset: 270
-  controller: 0
-  rotationSpeed: 30
+  rotationSpeed: 60
 --- !u!114 &114781756300159576
 MonoBehaviour:
   m_ObjectHideFlags: 1
