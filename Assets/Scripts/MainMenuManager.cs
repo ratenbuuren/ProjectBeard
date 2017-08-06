@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
-    private static MainMenuManager _instance;
+    public static MainMenuManager _instance;
 
     private int _keyboardPlayers;
     private int _controllerPlayers;
@@ -50,6 +50,14 @@ public class MainMenuManager : MonoBehaviour {
         _setupReadyButton.GetComponent<Button>().onClick.AddListener(LoadBattleArena);
 
         HideSetupPanel();
+    }
+
+    public int KeyboardPlayers {
+        get { return _keyboardPlayers; }
+    }
+
+    public int ControllerPlayers {
+        get { return _controllerPlayers; }
     }
 
     private void ShowSetupPanel() {
