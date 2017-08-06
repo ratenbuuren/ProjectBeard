@@ -44,12 +44,14 @@ public class GameManager : MonoBehaviour {
         _canvas = GameObject.Find("Canvas");
         AddColorsAndAnchorsToList();
         //Create the players
-        CreateHumanPlayer("Player1 Tank", new Vector3(-5, 0, 0), "HorizontalKeyboard", "VerticalKeyboard", "FireKeyboard",
-            "RotateTurretController1", false);
-        CreateHumanPlayer("Player2 Tank", new Vector3(5, 0, 0), "HorizontalController1", "VerticalController1", "FireController1",
-            "RotateTurretController1", true);
-        CreateHumanPlayer("Player3 Tank", new Vector3(0, 3, 0), "HorizontalController2", "VerticalController2", "FireController2",
-            "RotateTurretController2", true);
+        CreateHumanPlayer("Player1 Tank", new Vector3(-5, 0, 0), "HorizontalKeyboard1", "VerticalKeyboard1",
+            "FireKeyboard1", "RotateTurretKeyboard1");
+        CreateHumanPlayer("Player2 Tank", new Vector3(5, 0, 0), "HorizontalKeyboard2", "VerticalKeyboard2",
+            "FireKeyboard2", "RotateTurretKeyboard2");
+        CreateHumanPlayer("Player3 Tank", new Vector3(0, 3, 0), "HorizontalController1", "VerticalController1",
+            "FireController1", "RotateTurretController1");
+        CreateHumanPlayer("Player4 Tank", new Vector3(0, -3, 0), "HorizontalController2", "VerticalController2",
+            "FireController2", "RotateTurretController2");
 
         //computerPlayer = Instantiate(computerPlayerPrefab, new Vector3(5,0,0), Quaternion.identity);
 
@@ -71,12 +73,12 @@ public class GameManager : MonoBehaviour {
         _playerUiAnchors.Add(new Vector2(0, 1));
     }
 
-    private void CreateHumanPlayer(string name, Vector3 postition, string horizontalAxis, string verticalAxis, string fireInput,
-        string rotateTurretAxis, bool controller) {
+    private void CreateHumanPlayer(string name, Vector3 postition, string horizontalAxis, string verticalAxis,
+        string fireInput, string rotateTurretAxis) {
         player = Instantiate(playerPrefab, postition, Quaternion.identity);
         player.name = name;
         player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
-        player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis, controller);
+        player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis);
         players.Add((player));
 
         CreatePlayerStatsUi(players.Count, player);
@@ -85,11 +87,11 @@ public class GameManager : MonoBehaviour {
     private void CreatePlayerStatsUi(int playerNumber, GameObject player) {
         GameObject playerStatsUi = Instantiate(playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
         playerStatsUi.transform.SetParent(_canvas.transform);
-        
+
         playerStatsUi.GetComponent<RectTransform>().anchorMin = _playerUiAnchors[playerNumber - 1];
         playerStatsUi.GetComponent<RectTransform>().anchorMax = _playerUiAnchors[playerNumber - 1];
         playerStatsUi.GetComponent<RectTransform>().pivot = _playerUiAnchors[playerNumber - 1];
-        
+
         playerStatsUi.GetComponent<RectTransform>().localScale = Vector3.one;
         playerStatsUi.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 
