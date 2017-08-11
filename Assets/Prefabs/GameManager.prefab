@@ -71,9 +71,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ebea4756520419a93a73e3c3bc1af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOver: 0
+  GameOver: 0
   humanPlayers: 1
   computerPlayers: 0
+  ColorPlayer1: {r: 1, g: 0, b: 0, a: 1}
+  ColorPlayer2: {r: 0, g: 0, b: 1, a: 1}
+  ColorPlayer3: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  ColorPlayer4: {r: 0, g: 1, b: 0, a: 1}
+  SpawnPoint1: {x: -5, y: 0, z: 0}
+  SpawnPoint2: {x: 5, y: 0, z: 0}
+  SpawnPoint3: {x: 0, y: 3, z: 0}
+  SpawnPoint4: {x: 0, y: -3, z: 0}
   playerPrefab: {fileID: 1067663092058938, guid: eae1e564b4959df48bf9204f7103b044,
     type: 2}
   computerPlayerPrefab: {fileID: 1067663092058938, guid: 081c34a0e06b34c2ebe83922d45c6e09,
