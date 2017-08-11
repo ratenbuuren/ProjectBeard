@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour {
 
         // If gameOver, activate text and load MainMenu after 2 seconds
         if (GameOver) {
+            gameOverText.GetComponent<Text>().text = "" + players[0].name + " WINS!";
             gameOverText.SetActive(true);
             Invoke("LoadMainMenu", 2f);
         }
