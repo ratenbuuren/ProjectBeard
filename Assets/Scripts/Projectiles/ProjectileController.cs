@@ -3,39 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ProjectileController : MonoBehaviour {
-    protected AmmoType ammoType = AmmoType.Normal;
-    protected float damage = 25f;
-    
-    private float velocity = 3f;
-    private  float range = 4f;
+    public float damageModifier = 1f;
 
-    private GameObject origin;
+    protected AmmoType ammoType = AmmoType.Normal;
+    protected float baseDamage = 25f;
+    protected float velocity = 3f;
+    protected float range = 4f;
+    protected float scale = 1f;
+    protected GameObject origin;
 
     void Start() {
         Destroy(this.gameObject, range);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Collision with" +other.gameObject.name);
         if (other.gameObject != origin) {
-            dealDamage(other);
+            onHit(other);
             Destroy(gameObject);
         }
     }
 
-    protected abstract void dealDamage(Collider2D other);
+    protected abstract void onHit(Collider2D other);
 
     void Update() {
         transform.position += transform.up * velocity * Time.deltaTime;
     }
-    
+
     public AmmoType AmmoType {
         get { return ammoType; }
         set { ammoType = value; }
     }
 
     public float Damage {
-        get { return damage; }
-        set { damage = value; }
+        get { return baseDamage * damageModifier; }
+    }
+
+    public float BaseDamage {
+        get { return baseDamage; }
+        set { baseDamage = value; }
     }
 
     public float Velocity {
@@ -51,5 +57,15 @@ public abstract class ProjectileController : MonoBehaviour {
     public GameObject Origin {
         get { return origin; }
         set { origin = value; }
+    }
+
+    public float Scale {
+        get {
+            return scale; 
+        }
+        set {
+            scale = value;
+            transform.localScale = Vector3.one*value;
+        }
     }
 }

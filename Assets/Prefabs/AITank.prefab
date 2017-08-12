@@ -169,7 +169,7 @@ MonoBehaviour:
   _movementSpeed: 3
   _movementRotationSpeed: 2
   _turretRotationSpeed: 2
-  _ammoType: 0
+  _ammoType: 2
 --- !u!114 &114183895187185996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
     type: 2}
   piercingAmmoPrefab: {fileID: 1493914534035564, guid: 48c6779531ecd46c091b976ab2b4daea,
     type: 2}
-  explosiveAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+  explosiveAmmoPrefab: {fileID: 1481136318563066, guid: fde189a5a2f2347188946f021c63c7a7,
     type: 2}
   fireRangeThreshold: 4
 --- !u!114 &114402291334729936
@@ -201,6 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armorPrefab: {fileID: 1457665543350538, guid: 549ef726a26b749188713a5aab38f048,
     type: 2}
+  _currentHealth: 0
+  _currentArmor: 0
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1

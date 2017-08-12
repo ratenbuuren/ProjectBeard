@@ -26,17 +26,16 @@ public class BaseShooting : BaseTank {
 
     protected void Fire() {
         if (canShoot) {
-            GameObject bullet = Instantiate(_prefabDictionary[stats.AmmoType], bulletOrigin.position, Quaternion.identity);
-            bullet.transform.rotation = barrelTransform.rotation;
-            bullet.transform.localScale = Vector2.one * stats.GetStat(StatType.ProjectileSize);
+            GameObject bullet = Instantiate(_prefabDictionary[stats.AmmoType], bulletOrigin.position, barrelTransform.rotation);
 
             ProjectileController pc = bullet.GetComponent<ProjectileController>();
-            pc.Damage = stats.GetStat(StatType.ProjectileDamage);
+            pc.BaseDamage = stats.GetStat(StatType.ProjectileDamage);
             pc.Range = stats.GetStat(StatType.ProjectileRange);
             pc.Velocity = stats.GetStat(StatType.ProjectileVelocity);
+            pc.Scale = stats.GetStat(StatType.ProjectileSize);
             pc.AmmoType = stats.AmmoType;
             pc.Origin = gameObject;
-
+            
             StartCoroutine("Reload");
         }
     }
