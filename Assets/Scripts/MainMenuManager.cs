@@ -2,19 +2,93 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
-    private static MainMenuManager instance;
+    public static MainMenuManager Instance;
 
-    void Awake() {
-        if (instance == null) {
-            instance = this;
-        } else if (instance != this) {
+    private int _keyboardPlayers;
+    private int _controllerPlayers;
+
+    private GameObject _playButton;
+    private GameObject _setupPanel;
+
+    private GameObject _keyboardSlider;
+    private GameObject _keyboardValue;
+    private GameObject _controllerSlider;
+    private GameObject _controllerValue;
+
+    private GameObject _setupBackButton;
+    private GameObject _setupReadyButton;
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else if (Instance != this) {
             Destroy(gameObject);
         }
     }
 
-    public void LoadScene(string sceneName) {
-        SceneManager.LoadScene(sceneName);
+    private void Start() {
+        _playButton = GameObject.Find("PlayButton");
+        _playButton.GetComponent<Button>().onClick.AddListener(ShowSetupPanel);
+
+        _setupPanel = GameObject.Find("SetupPanel");
+
+        _keyboardSlider = GameObject.Find("KeyboardPlayersSlider");
+        _keyboardSlider.GetComponent<Slider>().onValueChanged.AddListener(UpdateKeyboardPlayers);
+        _keyboardValue = GameObject.Find("KeyboardPlayersValue");
+
+        _controllerSlider = GameObject.Find("ControllerPlayersSlider");
+        _controllerSlider.GetComponent<Slider>().onValueChanged.AddListener(UpdateControllerPlayers);
+        _controllerValue = GameObject.Find("ControllerPlayersValue");
+
+        _setupBackButton = GameObject.Find("SetupBackButton");
+        _setupBackButton.GetComponent<Button>().onClick.AddListener(HideSetupPanel);
+
+        _setupReadyButton = GameObject.Find("SetupReadyButton");
+        _setupReadyButton.GetComponent<Button>().onClick.AddListener(LoadBattleArena);
+
+        HideSetupPanel();
+    }
+
+    public int KeyboardPlayers {
+        get { return _keyboardPlayers; }
+    }
+
+    public int ControllerPlayers {
+        get { return _controllerPlayers; }
+    }
+
+    private void ShowSetupPanel() {
+        _playButton.SetActive(false);
+        _setupPanel.SetActive(true);
+        _setupReadyButton.SetActive(false);
+    }
+
+    private void HideSetupPanel() {
+        _setupPanel.SetActive(false);
+        _playButton.SetActive(true);
+    }
+
+    private void UpdateKeyboardPlayers(float players) {
+        _keyboardPlayers = (int) players;
+        _keyboardValue.GetComponent<Text>().text = "" + _keyboardPlayers;
+        CheckPlayerValues();
+    }
+
+    private void UpdateControllerPlayers(float players) {
+        _controllerPlayers = (int) players;
+        _controllerValue.GetComponent<Text>().text = "" + _controllerPlayers;
+        CheckPlayerValues();
+    }
+
+    private void CheckPlayerValues() {
+        int players = _keyboardPlayers + _controllerPlayers;
+        _setupReadyButton.SetActive(players >= 2 && players <= 4);
+    }
+
+    public void LoadBattleArena() {
+        SceneManager.LoadScene("BattleArena");
     }
 }
