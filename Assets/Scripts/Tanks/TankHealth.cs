@@ -35,7 +35,7 @@ public class TankHealth : BaseTank {
 	public void AddHealth(float amount) {
 		_currentHealth = Math.Min(_currentHealth + amount, stats.GetStat(StatType.MaxHealth));
 		if (_currentHealth <= 0) {
-			GameManager.instance.RemovePlayer(this.gameObject);
+			GameManager.Instance.RemovePlayer(this.gameObject);
 			Destroy(gameObject);
 		}
 	}

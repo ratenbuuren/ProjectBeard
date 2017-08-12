@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
-    public static MainMenuManager _instance;
+    public static MainMenuManager Instance;
 
     private int _keyboardPlayers;
     private int _controllerPlayers;
@@ -22,9 +22,9 @@ public class MainMenuManager : MonoBehaviour {
     private GameObject _setupReadyButton;
 
     private void Awake() {
-        if (_instance == null) {
-            _instance = this;
-        } else if (_instance != this) {
+        if (Instance == null) {
+            Instance = this;
+        } else if (Instance != this) {
             Destroy(gameObject);
         }
     }

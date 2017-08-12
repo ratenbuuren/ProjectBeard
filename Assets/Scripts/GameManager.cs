@@ -1,15 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
-    public static GameManager instance;
-    public bool GameOver;
+    public static GameManager Instance;
 
-    [Range(1f, 3f)] public int humanPlayers;
-    [Range(0f, 3f)] public int computerPlayers;
+    [Range(0f, 2f)] public int KeyBoardPlayers = 2;
+    [Range(0f, 2f)] public int ControllerPlayers;
 
     public Color ColorPlayer1 = Color.red;
     public Color ColorPlayer2 = Color.blue;
@@ -25,24 +26,23 @@ public class GameManager : MonoBehaviour {
     private readonly List<Vector2> _playerUiAnchors = new List<Vector2>();
     private readonly List<Vector3> _playerSpawnPoints = new List<Vector3>();
 
-    private GameObject player;
-    private GameObject computerPlayer;
-    private readonly List<GameObject> players = new List<GameObject>();
+    private readonly List<GameObject> _players = new List<GameObject>();
     private readonly Dictionary<GameObject, Text> _playerStatsUis = new Dictionary<GameObject, Text>();
 
-    public GameObject playerPrefab;
-    public GameObject computerPlayerPrefab;
-    public GameObject playerStatsUIPrefab;
-    public GameObject[] powerUpPrefabs;
+    public GameObject _playerPrefab;
+    public GameObject _playerStatsUIPrefab;
+    public GameObject[] _powerUpPrefabs;
+    
+    private bool _gameOver;
 
     private GameObject _canvas;
 
-    private GameObject gameOverText;
+    private GameObject _gameOverText;
 
     void Awake() {
-        if (instance == null) {
-            instance = this;
-        } else if (instance != this) {
+        if (Instance == null) {
+            Instance = this;
+        } else if (Instance != this) {
             Destroy(gameObject);
         }
     }
@@ -53,21 +53,39 @@ public class GameManager : MonoBehaviour {
         CreatePlayers();
 
         //Find the game over text
-        gameOverText = GameObject.Find("GameOverText");
-        gameOverText.SetActive(false);
+        _gameOverText = GameObject.Find("GameOverText");
+        _gameOverText.SetActive(false);
 
         InvokeRepeating("SpawnPowerUps", 2.0f, 2.0f);
     }
 
+    private int GetKeyboardPlayers() {
+        try {
+            return MainMenuManager.Instance.KeyboardPlayers;
+        }
+        catch (NullReferenceException) {
+            return KeyBoardPlayers;
+        }
+    }
+
+    private int GetControllerPlayers() {
+        try {
+            return MainMenuManager.Instance.ControllerPlayers;
+        }
+        catch (NullReferenceException) {
+            return ControllerPlayers;
+        }
+    }
+
     private void CreatePlayers() {
         int currentPlayerIndex = 1;
-        for (int keyboardPlayers = 1; keyboardPlayers < MainMenuManager._instance.KeyboardPlayers + 1; keyboardPlayers++) {
+        for (int keyboardPlayers = 1; keyboardPlayers <= GetKeyboardPlayers(); keyboardPlayers++) {
             CreateHumanPlayer(currentPlayerIndex, "HorizontalKeyboard" + keyboardPlayers,
                 "VerticalKeyboard" + keyboardPlayers,
                 "FireKeyboard" + keyboardPlayers, "RotateTurretKeyboard" + keyboardPlayers);
             currentPlayerIndex++;
         }
-        for (int controllerPlayers = 1; controllerPlayers < MainMenuManager._instance.ControllerPlayers + 1; controllerPlayers++) {
+        for (int controllerPlayers = 1; controllerPlayers <= GetControllerPlayers(); controllerPlayers++) {
             CreateHumanPlayer(currentPlayerIndex, "HorizontalController" + controllerPlayers,
                 "VerticalController" + controllerPlayers,
                 "FireController" + controllerPlayers, "RotateTurretController" + controllerPlayers);
@@ -92,17 +110,17 @@ public class GameManager : MonoBehaviour {
 
     private void CreateHumanPlayer(int playerNumber, string horizontalAxis, string verticalAxis,
         string fireInput, string rotateTurretAxis) {
-        player = Instantiate(playerPrefab, _playerSpawnPoints[playerNumber-1], Quaternion.identity);
+        GameObject player = Instantiate(_playerPrefab, _playerSpawnPoints[playerNumber-1], Quaternion.identity);
         player.name = "Player " + playerNumber + " Tank";
         player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
         player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis);
-        players.Add((player));
+        _players.Add((player));
 
-        CreatePlayerStatsUi(players.Count, player);
+        CreatePlayerStatsUi(_players.Count, player);
     }
 
     private void CreatePlayerStatsUi(int playerNumber, GameObject player) {
-        GameObject playerStatsUi = Instantiate(playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
+        GameObject playerStatsUi = Instantiate(_playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
         playerStatsUi.transform.SetParent(_canvas.transform);
 
         playerStatsUi.GetComponent<RectTransform>().anchorMin = _playerUiAnchors[playerNumber - 1];
@@ -118,7 +136,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RemovePlayer(GameObject player) {
-        players.Remove(player);
+        _players.Remove(player);
         Destroy(_playerStatsUis[player].gameObject);
     }
 
@@ -127,15 +145,15 @@ public class GameManager : MonoBehaviour {
         CheckGameOver();
 
         // If gameOver, activate text and load MainMenu after 2 seconds
-        if (GameOver) {
-            gameOverText.GetComponent<Text>().text = "" + players[0].name + " WINS!";
-            gameOverText.SetActive(true);
+        if (_gameOver) {
+            _gameOverText.GetComponent<Text>().text = "" + _players[0].name + " WINS!";
+            _gameOverText.SetActive(true);
             Invoke("LoadMainMenu", 2f);
         }
     }
 
     void CheckGameOver() {
-        GameOver = (players.Count == 1);
+        _gameOver = (_players.Count == 1);
     }
 
     void SetStatsUIs() {
@@ -164,12 +182,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SpawnPowerUps() {
-        if (powerUpPrefabs.Length > 0) {
+        if (_powerUpPrefabs.Length > 0) {
             int maxX = 12;
             int maxY = 7;
             float posX = Random.Range(0, maxX) - (maxX / 2);
             float posY = Random.Range(0, maxY) - (maxY / 2);
-            Instantiate(powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)], new Vector3(posX, posY, 0),
+            Instantiate(_powerUpPrefabs[Random.Range(0, _powerUpPrefabs.Length)], new Vector3(posX, posY, 0),
                 Quaternion.identity);
         }
     }
