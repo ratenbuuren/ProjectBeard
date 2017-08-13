@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 100
   _fireRate: 5
-  _projectileDamage: 40
+  _projectileDamage: 10
   _projectileSize: 1
   _projectileVelocity: 3
   _projectileRange: 5
@@ -198,7 +198,7 @@ MonoBehaviour:
     type: 2}
   piercingAmmoPrefab: {fileID: 1493914534035564, guid: 48c6779531ecd46c091b976ab2b4daea,
     type: 2}
-  explosiveAmmoPrefab: {fileID: 1649717501897528, guid: 97c0291964a5897419102a3c473e0e23,
+  explosiveAmmoPrefab: {fileID: 1481136318563066, guid: fde189a5a2f2347188946f021c63c7a7,
     type: 2}
   rotationOffset: 270
   rotationSpeed: 60
@@ -215,6 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armorPrefab: {fileID: 1457665543350538, guid: 549ef726a26b749188713a5aab38f048,
     type: 2}
+  _currentHealth: 0
+  _currentArmor: 0
 --- !u!212 &212129515589016560
 SpriteRenderer:
   m_ObjectHideFlags: 1

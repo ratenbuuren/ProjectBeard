@@ -6,6 +6,9 @@ public class ExplosiveProjectileController : ProjectileController {
     public GameObject explosionPrefab;
 
     protected override void onHit(Collider2D other) {
-        GameObject explosion = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+        float rotAngle = new RandomRotation(1).value();
+        GameObject explosion = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.Euler(Vector3.forward*rotAngle));
+        ExplosionController ec = explosion.GetComponent<ExplosionController>();
+        ec.Damage = this.Damage;
     }
 }
