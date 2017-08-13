@@ -169,7 +169,7 @@ MonoBehaviour:
   _movementSpeed: 3
   _movementRotationSpeed: 2
   _turretRotationSpeed: 2
-  _ammoType: 2
+  _ammoType: 0
 --- !u!114 &114183895187185996
 MonoBehaviour:
   m_ObjectHideFlags: 1
