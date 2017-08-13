@@ -28,6 +28,7 @@ public class TankHealth : BaseTank {
 		} else if (amount < 0) {
 			RemoveHealth(-amount);
 		}
+		CheckArmor();
 	}
 	
 	public void ChangeArmor(float amount) {
@@ -36,6 +37,7 @@ public class TankHealth : BaseTank {
 		} else if (amount < 0) {
 			DamageArmor(-amount);
 		}
+		CheckArmor();
 	}
 	
 	private void AddHealth(float amount) {
@@ -52,17 +54,19 @@ public class TankHealth : BaseTank {
 
 	private void AddArmor(float amount) {
 		_currentArmor = Math.Max(_currentArmor + amount, 0);
+	}
+
+	private void DamageArmor(float amount) {
+		_currentArmor -= amount;
+	}
+
+	private void CheckArmor() {
 		if (_currentArmor > 0 && armorChild == null) {
 			armorChild = Instantiate(armorPrefab);
 			armorChild.name = "Armor";
 			armorChild.transform.parent = gameObject.transform;
 			armorChild.transform.position = gameObject.transform.position;
-		}
-	}
-
-	private void DamageArmor(float amount) {
-		_currentArmor -= amount;
-		if (_currentArmor <= 0 && armorChild != null) {
+		} else if (_currentArmor <= 0 && armorChild != null) {
 			Destroy(armorChild.gameObject);
 		}
 	}
