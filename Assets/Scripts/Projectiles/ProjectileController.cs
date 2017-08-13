@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class ProjectileController : MonoBehaviour {
     public float damageModifier = 1f;
@@ -17,7 +15,6 @@ public abstract class ProjectileController : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Collision with" +other.gameObject.name);
         if (other.gameObject != origin) {
             onHit(other);
             Destroy(gameObject);
@@ -60,12 +57,10 @@ public abstract class ProjectileController : MonoBehaviour {
     }
 
     public float Scale {
-        get {
-            return scale; 
-        }
+        get { return scale; }
         set {
             scale = value;
-            transform.localScale = Vector3.one*value;
+            transform.localScale = Vector3.one * value;
         }
     }
 }
