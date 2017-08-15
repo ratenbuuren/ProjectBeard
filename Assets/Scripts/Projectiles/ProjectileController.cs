@@ -1,54 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ProjectileController : MonoBehaviour {
-    private AmmoType ammoType;
-    private float damage = 25f;
-    private float velocity = 3f;
-    private float range = 4f;
+public abstract class ProjectileController : MonoBehaviour {
+    public float DamageModifier = 1f;
 
-    private GameObject origin;
+    private AmmoType _ammoType = AmmoType.Normal;
+    private float _baseDamage = 25f;
+    private float _velocity = 3f;
+    private float _range = 4f;
+    private float _scale = 1f;
+    private GameObject _origin;
 
     void Start() {
-        Destroy(this.gameObject, range);
+        Destroy(this.gameObject, _range);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject != origin) {
-            if (other.gameObject.name.Contains("Tank")) {
-                other.gameObject.GetComponent<TankHealth>().TakeDamage(damage, ammoType);
-            }
+        if (other.gameObject != _origin) {
+            onHit(other);
             Destroy(gameObject);
         }
     }
 
+    protected abstract void onHit(Collider2D other);
+
     void Update() {
-        transform.position += transform.up * velocity * Time.deltaTime;
+        transform.position += transform.up * _velocity * Time.deltaTime;
     }
-    
+
     public AmmoType AmmoType {
-        get { return ammoType; }
-        set { ammoType = value; }
+        get { return _ammoType; }
+        set { _ammoType = value; }
     }
 
     public float Damage {
-        get { return damage; }
-        set { damage = value; }
+        get { return _baseDamage * DamageModifier; }
+    }
+
+    public float BaseDamage {
+        get { return _baseDamage; }
+        set { _baseDamage = value; }
     }
 
     public float Velocity {
-        get { return velocity; }
-        set { velocity = value; }
+        get { return _velocity; }
+        set { _velocity = value; }
     }
 
     public float Range {
-        get { return range; }
-        set { range = value; }
+        get { return _range; }
+        set { _range = value; }
     }
 
     public GameObject Origin {
-        get { return origin; }
-        set { origin = value; }
+        get { return _origin; }
+        set { _origin = value; }
+    }
+
+    public float Scale {
+        get { return _scale; }
+        set {
+            _scale = value;
+            transform.localScale = Vector3.one * value;
+        }
     }
 }

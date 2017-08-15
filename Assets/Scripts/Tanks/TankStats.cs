@@ -12,6 +12,8 @@ public class TankStats : MonoBehaviour {
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _movementRotationSpeed = 2f;
     [SerializeField] private float _turretRotationSpeed = 2f;
+    
+    [SerializeField] private AmmoType _ammoType = AmmoType.Normal;
 
     private Dictionary<StatType, float> currentValues = new Dictionary<StatType, float>();
     private Dictionary<StatType, List<PowerUpEntry>> _activePowerUps = new Dictionary<StatType, List<PowerUpEntry>>();
@@ -60,5 +62,10 @@ public class TankStats : MonoBehaviour {
             _activePowerUps[entry.StatType].Add(entry);
         }
         RecalculateStats();
+    }
+
+    public AmmoType AmmoType {
+        get { return _ammoType; }
+        set { _ammoType = value; }
     }
 }

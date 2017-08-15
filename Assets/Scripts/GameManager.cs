@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +21,10 @@ public class GameManager : MonoBehaviour {
     public Vector3 SpawnPoint3 = new Vector3(0, 3, 0);
     public Vector3 SpawnPoint4 = new Vector3(0, -3, 0);
     
+    public GameObject PlayerPrefab;
+    public GameObject PlayerStatsUiPrefab;
+    public GameObject[] PowerUpPrefabs;
+
     private readonly List<Color> _playerColors = new List<Color>();
     private readonly List<Vector2> _playerUiAnchors = new List<Vector2>();
     private readonly List<Vector3> _playerSpawnPoints = new List<Vector3>();
@@ -29,14 +32,8 @@ public class GameManager : MonoBehaviour {
     private readonly List<GameObject> _players = new List<GameObject>();
     private readonly Dictionary<GameObject, Text> _playerStatsUis = new Dictionary<GameObject, Text>();
 
-    public GameObject _playerPrefab;
-    public GameObject _playerStatsUIPrefab;
-    public GameObject[] _powerUpPrefabs;
-    
     private bool _gameOver;
-
     private GameObject _canvas;
-
     private GameObject _gameOverText;
 
     void Awake() {
@@ -62,8 +59,7 @@ public class GameManager : MonoBehaviour {
     private int GetKeyboardPlayers() {
         try {
             return MainMenuManager.Instance.KeyboardPlayers;
-        }
-        catch (NullReferenceException) {
+        } catch (NullReferenceException) {
             return KeyBoardPlayers;
         }
     }
@@ -71,8 +67,7 @@ public class GameManager : MonoBehaviour {
     private int GetControllerPlayers() {
         try {
             return MainMenuManager.Instance.ControllerPlayers;
-        }
-        catch (NullReferenceException) {
+        } catch (NullReferenceException) {
             return ControllerPlayers;
         }
     }
@@ -110,7 +105,7 @@ public class GameManager : MonoBehaviour {
 
     private void CreateHumanPlayer(int playerNumber, string horizontalAxis, string verticalAxis,
         string fireInput, string rotateTurretAxis) {
-        GameObject player = Instantiate(_playerPrefab, _playerSpawnPoints[playerNumber-1], Quaternion.identity);
+        GameObject player = Instantiate(PlayerPrefab, _playerSpawnPoints[playerNumber - 1], Quaternion.identity);
         player.name = "Player " + playerNumber + " Tank";
         player.GetComponent<HumanTankMovement>().SetAxis(horizontalAxis, verticalAxis);
         player.GetComponent<HumanTankShooting>().SetFireInput(fireInput, rotateTurretAxis);
@@ -120,7 +115,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void CreatePlayerStatsUi(int playerNumber, GameObject player) {
-        GameObject playerStatsUi = Instantiate(_playerStatsUIPrefab, Vector3.zero, Quaternion.identity);
+        GameObject playerStatsUi = Instantiate(PlayerStatsUiPrefab, Vector3.zero, Quaternion.identity);
         playerStatsUi.transform.SetParent(_canvas.transform);
 
         playerStatsUi.GetComponent<RectTransform>().anchorMin = _playerUiAnchors[playerNumber - 1];
@@ -182,12 +177,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SpawnPowerUps() {
-        if (_powerUpPrefabs.Length > 0) {
+        if (PowerUpPrefabs.Length > 0) {
             int maxX = 12;
             int maxY = 7;
             float posX = Random.Range(0, maxX) - (maxX / 2);
             float posY = Random.Range(0, maxY) - (maxY / 2);
-            Instantiate(_powerUpPrefabs[Random.Range(0, _powerUpPrefabs.Length)], new Vector3(posX, posY, 0),
+            Instantiate(PowerUpPrefabs[Random.Range(0, PowerUpPrefabs.Length)], new Vector3(posX, posY, 0),
                 Quaternion.identity);
         }
     }
