@@ -13,7 +13,7 @@ public class TankStats : MonoBehaviour {
     [SerializeField] private float _movementRotationSpeed = 2f;
     [SerializeField] private float _turretRotationSpeed = 2f;
     
-    [SerializeField] private AmmoType _ammoType = AmmoType.Normal;
+    [SerializeField] private AmmoType _ammoType = AmmoType.None;
 
     private Dictionary<StatType, float> currentValues = new Dictionary<StatType, float>();
     private Dictionary<StatType, List<PowerUpEntry>> _activePowerUps = new Dictionary<StatType, List<PowerUpEntry>>();

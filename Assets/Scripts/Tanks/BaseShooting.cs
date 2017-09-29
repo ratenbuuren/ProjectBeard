@@ -18,7 +18,7 @@ public class BaseShooting : BaseTank {
         barrelTransform = transform.Find("Barrel");
         bulletOrigin = barrelTransform.Find("BulletOrigin");
         _prefabDictionary = new Dictionary<AmmoType, GameObject>() {
-            {AmmoType.Normal, normalAmmoPrefab},
+            {AmmoType.None, normalAmmoPrefab},
             {AmmoType.ArmorPiercing, piercingAmmoPrefab},
             {AmmoType.Explosive, explosiveAmmoPrefab}
         };
