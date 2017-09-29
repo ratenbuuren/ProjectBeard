@@ -52,8 +52,6 @@ public class GameManager : MonoBehaviour {
         //Find the game over text
         _gameOverText = GameObject.Find("GameOverText");
         _gameOverText.SetActive(false);
-
-        InvokeRepeating("SpawnPowerUps", 2.0f, 2.0f);
     }
 
     private int GetKeyboardPlayers() {
@@ -174,16 +172,5 @@ public class GameManager : MonoBehaviour {
 
     private void LoadMainMenu() {
         SceneManager.LoadScene("MainMenu");
-    }
-
-    private void SpawnPowerUps() {
-        if (PowerUpPrefabs.Length > 0) {
-            int maxX = 12;
-            int maxY = 7;
-            float posX = Random.Range(0, maxX) - (maxX / 2);
-            float posY = Random.Range(0, maxY) - (maxY / 2);
-            Instantiate(PowerUpPrefabs[Random.Range(0, PowerUpPrefabs.Length)], new Vector3(posX, posY, 0),
-                Quaternion.identity);
-        }
     }
 }

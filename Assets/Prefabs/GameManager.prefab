@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4905819964294130}
   - component: {fileID: 114728703697704948}
-  - component: {fileID: 114241171258069228}
+  - component: {fileID: 114644286080395452}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -41,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114241171258069228
+--- !u!114 &114644286080395452
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -49,17 +49,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1444765191186460}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f98922e74d3254191899651248baa577, type: 3}
+  m_Script: {fileID: 11500000, guid: f4009f6ad81744e1ac52aa1982934b1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   height: 7
   width: 12
-  tile: {fileID: 1701253733889428, guid: cb66a95c4fea648d8be1c721e03eddab, type: 2}
+  ground: {fileID: 1701253733889428, guid: cb66a95c4fea648d8be1c721e03eddab, type: 2}
   edge: {fileID: 1730390680011184, guid: 6d458d0f7886a418694b0a7bd161204f, type: 2}
   edgeDecoration: {fileID: 1088976589101178, guid: 11be1a2c0bf96464babe55cf870ea299,
     type: 2}
-  edgeScale: 0.4
-  obstacle: {fileID: 1215735642443314, guid: 3b20e86c153be48898b0d9f99ed9826d, type: 2}
 --- !u!114 &114728703697704948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,12 +79,15 @@ MonoBehaviour:
   SpawnPoint2: {x: 5, y: 0, z: 0}
   SpawnPoint3: {x: 0, y: 3, z: 0}
   SpawnPoint4: {x: 0, y: -3, z: 0}
-  _playerPrefab: {fileID: 1067663092058938, guid: eae1e564b4959df48bf9204f7103b044,
+  PlayerPrefab: {fileID: 1067663092058938, guid: eae1e564b4959df48bf9204f7103b044,
     type: 2}
-  _playerStatsUIPrefab: {fileID: 1419372221005926, guid: 2ebd74482a8c44fdebe0ce498228213d,
+  PlayerStatsUiPrefab: {fileID: 1067663092058938, guid: 081c34a0e06b34c2ebe83922d45c6e09,
     type: 2}
-  _powerUpPrefabs:
+  PowerUpPrefabs:
   - {fileID: 1215735642443314, guid: ae2b2652b47f64d048f7cdf15e42e460, type: 2}
   - {fileID: 1215735642443314, guid: 13df72d94b7054e4fb9e3d0486ad446a, type: 2}
   - {fileID: 1215735642443314, guid: 9761d55e01574409a9be3f16240a6ab1, type: 2}
   - {fileID: 1215735642443314, guid: fa99bccbdc9134221b70c9970abfa653, type: 2}
+  - {fileID: 1012153269949516, guid: 3627ca5415af540909cb7b226a72a67a, type: 2}
+  - {fileID: 1530690491756142, guid: 597ec72b87a574d2db80274490f34f75, type: 2}
+  - {fileID: 1687822757816572, guid: cd0ce1ad174c14799a546efd35b04000, type: 2}

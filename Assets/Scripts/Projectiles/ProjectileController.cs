@@ -3,7 +3,7 @@
 public abstract class ProjectileController : MonoBehaviour {
     public float DamageModifier = 1f;
 
-    private AmmoType _ammoType = AmmoType.Normal;
+    private AmmoType _ammoType = AmmoType.None;
     private float _baseDamage = 25f;
     private float _velocity = 3f;
     private float _range = 4f;
